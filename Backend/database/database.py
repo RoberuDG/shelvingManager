@@ -2,13 +2,13 @@ from msilib.schema import Class
 from posixpath import dirname
 import sqlite3
 import os
+import string
 
 from colorama import Cursor
 
-class database:
+class DatabaseUtils:
     
     def connec_to_db():
-        
         con = sqlite3.connect('/home/gragak/Code/shelvingManager/shelvingManager/Backend/database/prueba.db')
 
         dirname = os.path.dirname(__file__)
@@ -18,3 +18,7 @@ class database:
             data = file.read()
 
         return con.executescript(data)
+    
+    #TODO:Implementar métodos de inserción, borrado y modificación de filas
+    def insert_item_type(cursor: Cursor, sql: string):
+        pass
