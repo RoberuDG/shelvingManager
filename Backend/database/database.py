@@ -2,9 +2,6 @@ from msilib.schema import Class
 from posixpath import dirname
 import sqlite3
 import os
-import string
-
-from colorama import Cursor
 
 class DatabaseUtils:
     
@@ -20,5 +17,5 @@ class DatabaseUtils:
         return con.executescript(data)
     
     #TODO:Implementar métodos de inserción, borrado y modificación de filas
-    def insert_item_type(cursor: Cursor, sql: string):
+    def insert_item_type(cursor, sql):
         pass
