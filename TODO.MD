@@ -1,4 +1,4 @@
 ----TODO----------------------------------------------------------------
 [] IMPLEMENTAR CONTROLADOR
-[] IMPLEMENTAR OPERACIONES BBDD
+[X] IMPLEMENTAR OPERACIONES BBDD
 [] IMPLEMENTAR MÉTODOS EN LOS MODELOS
