@@ -80,6 +80,7 @@ class DatabaseUtils:
         cur.execute('''INSERT INTO item VALUES ({item.shelving_id}, {item.item_type_id}, {item.position}, {item.code}, {item.name}, {item.description}, {item.is_active}''',
                     item.shelving_id, item.item_type_id, item.position, item.code, item.name, item.description, True)
         return True if cur.lastrowid > 0 else False
+
     # *Actualización de datos
 
     def update_room(room_id: int, room: Habitacion, cur: Cursor) -> Boolean:
@@ -107,7 +108,7 @@ class DatabaseUtils:
                     item.shelve_id, item.item_type_id, item.position, item.name, item.description, True, item_id)
         return True if cur.lastrowid > 0 else False
 
-    # *Borrado de datos
+    # *Desactivacion de datos
     def deactivate_room(room_id: int, cur: Cursor) -> Boolean:
         cur.execute(
             '''UPDATE room SET is_active = FALSE WHERE id= {room_id}''', room_id)
@@ -131,4 +132,27 @@ class DatabaseUtils:
     def deactivate_item(item_id: int, cur: Cursor) -> Boolean:
         cur.execute(
             '''UPDATE item SET is_active = FALSE WHERE id= {item_id}''', item_id)
+        return True if cur.lastrowid > 0 else False
+
+    # *Borrado de datos
+    def delete_room(room_id: int, cur: Cursor) -> Boolean:
+        cur.execute('''DELETE FROM room WHERE id= {room_id}''', room_id)
+        return True if cur.lastrowid > 0 else False
+
+    def delete_shelving(shelving_id: int, cur: Cursor) -> Boolean:
+        cur.execute(
+            '''DELETE FROM shelving WHERE id = {shelving_id}''', shelving_id)
+        return True if cur.lastrowid > 0 else False
+
+    def delete_shelve(shelve_id: int, cur: Cursor) -> Boolean:
+        cur.execute(
+            '''DELETE FROM shelve WHERE id = {shelve_id}''', shelve_id)
+        return True if cur.lastrowid > 0 else False
+
+    def delete_item(item_id: int, cur: Cursor) -> Boolean:
+        cur.execute('''DELETE FROM item WHERE id = {item_id}''', item_id)
+        return True if cur.lastrowid > 0 else False
+
+    def delete_item_type(item_type_id: int, cur: Cursor) -> Boolean:
+        cur.execute('''DELETE FROM item_type WHERE id = {item_type_id}''', item_type_id)
         return True if cur.lastrowid > 0 else False
