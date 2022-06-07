@@ -1,8 +1,8 @@
 
 
 class Room:
-    def __init__(self, name, positions, creation_date, description=None):
+    def __init__(self, id, name, positions, description=None):
+        self.id = id
         self.name = name
         self.positions = positions
-        self.creation_date = creation_date
         self.description = description

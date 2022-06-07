@@ -1,4 +1,4 @@
-from Database.database import DatabaseUtils as db
+from shelvingManager.Backend.Database.database import DatabaseUtils as db
 
 from sqlite3 import Cursor
 
@@ -16,9 +16,9 @@ class ItemTypeController:
     def get_item_type(item_type_id: int, cur: Cursor) -> ItemType:
         return ItemType(db.get_item_type_object(item_type_id, cur).fetchone())
 
-    def get_all_item_types(item_type: ItemType, cur: Cursor) -> ItemType[any]:
+    def get_all_item_types(cur: Cursor):
         item_types = []
-        for row in db.get_all_item_types_object(item_type, cur):
+        for row in db.get_all_item_types_object(cur):
             item_types.append(row)
         return item_types
 
@@ -27,3 +27,6 @@ class ItemTypeController:
 
     def update_item_type(item_type: ItemType, cur: Cursor) -> bool:
         return db.update_item_type(item_type, cur)
+
+    def get_item_type_id(item_type_name: str, cur: Cursor) -> int:
+        return db.get_item_type_id(item_type_name, cur)

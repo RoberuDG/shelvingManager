@@ -1,4 +1,4 @@
-from Database.database import DatabaseUtils as db
+from shelvingManager.Backend.Database.database import DatabaseUtils as db
 
 from sqlite3 import Cursor
 
@@ -16,10 +16,12 @@ class RoomController:
     def get_room(room_id: int, cur: Cursor) -> Room:
         return Room(db.get_room_object(room_id, cur).fetchone())
 
-    def get_all_rooms(room: Room, cur: Cursor) -> Room[any]:
+    def get_all_rooms(cur: Cursor) -> list:
         rooms = []
-        for row in db.get_all_rooms_object(room, cur):
-            rooms.append(row)
+        for row in db.get_all_rooms_object(cur):
+            if row is not None:
+                room = Room(row[0], row[1], row[3], row[2])
+                rooms.append(room)
         return rooms
 
     def delete_room(room_id: int, cur: Cursor) -> bool:
@@ -27,3 +29,6 @@ class RoomController:
 
     def update_room(room: Room, cur: Cursor) -> bool:
         return db.update_room(room, cur)
+
+    def get_room_id(room_name: str, cur: Cursor) -> int:
+        return db.get_room_id(room_name, cur)

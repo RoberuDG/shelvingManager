@@ -1,4 +1,4 @@
-from Database.database import DatabaseUtils as db
+from shelvingManager.Backend.Database.database import DatabaseUtils as db
 
 from sqlite3 import Cursor
 
@@ -16,9 +16,9 @@ class ShelveController:
     def get_shelve(shelve_id: int, cur: Cursor) -> Shelve:
         return Shelve(db.get_shelve_object(shelve_id, cur).fetchone())
 
-    def get_all_shelves(shelve: Shelve, cur: Cursor) -> Shelve[any]:
+    def get_all_shelves(cur: Cursor):
         shelves = []
-        for row in db.get_all_shelves_object(shelve, cur):
+        for row in db.get_all_shelves_object(cur):
             shelves.append(row)
         return shelves
 
@@ -27,3 +27,6 @@ class ShelveController:
 
     def update_shelve(shelve: Shelve, cur: Cursor) -> bool:
         return db.update_shelve(shelve, cur)
+
+    def get_shelve_id(shelve_name: str, cur: Cursor) -> int:
+        return db.get_shelve_id(shelve_name, cur)

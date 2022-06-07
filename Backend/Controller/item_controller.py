@@ -1,10 +1,10 @@
-from Database.database import DatabaseUtils as db
+from shelvingManager.Backend.Database.database import DatabaseUtils as db
 
 from sqlite3 import Cursor
 
 from shelvingManager.Models.item import Item
 
-class ItemTypeController:
+class ItemController:
 
     def __init__(self, cur: Cursor):
         self.cur = cur
@@ -15,9 +15,9 @@ class ItemTypeController:
     def get_item(item_id: int, cur: Cursor) -> Item:
         return Item(db.get_item_object(item_id, cur).fetchone())
 
-    def get_all_items(item: Item, cur: Cursor) -> Item[any]:
+    def get_all_items(cur: Cursor):
         items = []
-        for row in db.get_all_items_object(item, cur):
+        for row in db.get_all_items_object(cur):
             items.append(row)
         return items
 
@@ -26,3 +26,6 @@ class ItemTypeController:
 
     def update_item(item: Item, cur: Cursor) -> bool:
         return db.update_item(item, cur)
+
+    def get_item_id(item_name: str, cur: Cursor) -> int:
+        return db.get_item_id(item_name, cur)
