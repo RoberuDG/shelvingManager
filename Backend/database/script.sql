@@ -35,11 +35,11 @@ CREATE TABLE IF NOT EXISTS item_types (
 
 CREATE TABLE IF NOT EXISTS items (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
-    shelve_id INTEGER,
+    shelf_id INTEGER,
     item_type_id INTEGER NOT NULL,
     position INTEGER NOT NULL,
     name TEXT(25) NOT NULL,
     description TEXT(255),
-    FOREIGN KEY (shelve_id) REFERENCES shelvings(id),
+    FOREIGN KEY (shelf_id) REFERENCES shelves(id),
     FOREIGN KEY (item_type_id) REFERENCES item_types(id)
 );

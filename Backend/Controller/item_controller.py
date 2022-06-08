@@ -29,3 +29,11 @@ class ItemController:
 
     def get_item_id(item_name: str, cur: Cursor) -> int:
         return db.get_item_id(item_name, cur)
+
+    def get_items_by_shelf_id(shelve_id: int, cur: Cursor) -> list:
+        items = []
+        for row in db.get_items_by_shelf_id(shelve_id, cur):
+            if row is not None:
+                item = Item(row[0], row[1], row[2], row[3], row[4], row[5])
+                items.append(item)
+        return items

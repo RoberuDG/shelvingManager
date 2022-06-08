@@ -35,6 +35,6 @@ class ShelvingController:
         shelvings = []
         for row in db.get_shelving_by_room_id(room_id, cur):
             if row is not None:
-                shelving = Shelving(row[0], row[1], row[2])
+                shelving = Shelving(row[0], row[1], row[2], row[3])
                 shelvings.append(shelving)
         return shelvings

@@ -14,36 +14,6 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTreeWidget" name="itemsWidget">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>421</width>
-      <height>811</height>
-     </rect>
-    </property>
-    <column>
-     <property name="text">
-      <string>Habitaciones</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Estanterías</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Baldas</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Objetos</string>
-     </property>
-    </column>
-   </widget>
    <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
@@ -66,7 +36,7 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>0</y>
+       <y>20</y>
        <width>801</width>
        <height>811</height>
       </rect>
@@ -75,6 +45,30 @@
       <property name="sizeConstraint">
        <enum>QLayout::SetMaximumSize</enum>
       </property>
+      <item row="0" column="0">
+       <widget class="QTreeWidget" name="itemsWidget">
+        <column>
+         <property name="text">
+          <string>Habitaciones</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Estanterías</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Baldas</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Objetos</string>
+         </property>
+        </column>
+       </widget>
+      </item>
      </layout>
     </widget>
    </widget>
@@ -129,6 +123,9 @@
      <string>Editar</string>
     </property>
     <widget class="QMenu" name="menuRoom">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="title">
       <string>Habitación</string>
      </property>
@@ -138,6 +135,9 @@
      <addaction name="actionDeleteRoom"/>
     </widget>
     <widget class="QMenu" name="menuEstanter_a">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="title">
       <string>Estantería</string>
      </property>
@@ -147,6 +147,9 @@
      <addaction name="actionEliminar_estanter_a"/>
     </widget>
     <widget class="QMenu" name="menuBalda">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="title">
       <string>Balda</string>
      </property>
