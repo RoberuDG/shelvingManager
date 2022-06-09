@@ -22,6 +22,10 @@ class DatabaseUtils:
             print("Error al conectar a la base de datos")
         return con
 
+    def close_db(connection: Connection):
+        connection.close()
+        print("Conexión cerrada")
+
     def create_db(connection: Connection) -> bool:
         dirname = os.path.dirname(__file__)
         filename = os.path.join(dirname, 'script.sql')
@@ -156,45 +160,53 @@ class DatabaseUtils:
         return cur.execute('''SELECT id, shelve_id, item_type_id, position, name, description FROM items WHERE shelve_id = ? ORDER BY position''', [shelf_id])
 
     # *Inserción de datos
-    def insert_room(room: Room,cur: Cursor) -> bool:
-        cur.execute('''INSERT INTO rooms VALUES (?, ?, ?)''',
+    def insert_room(room: Room,cur: Cursor, con: Connection) -> bool:
+        cur.execute('''INSERT INTO rooms (name, description, positions) VALUES (?, ?, ?)''',
                     [room.name, room.description, room.positions])
+        con.commit()
         return True if cur.lastrowid > 0 else False
 
-    def insert_shelving(shelving: Shelving, cur: Cursor) -> bool:
+    def insert_shelving(shelving: Shelving, cur: Cursor, con: Connection) -> bool:
         cur.execute('''INSERT INTO shelvings VALUES (?, ?, ?)''',
                     [shelving.room_id, shelving.code, shelving.positions])
+        con.commit()
         return True if cur.lastrowid > 0 else False
 
-    def insert_shelve(shelf: Shelf, cur: Cursor) -> bool:
+    def insert_shelve(shelf: Shelf, cur: Cursor, con: Connection) -> bool:
         cur.execute('''INSERT INTO shelves VALUES (?, ?, ?)''',
                         [shelf.shelving_id, shelf.code, shelf.position])
+        con.commit()
         return True if cur.lastrowid > 0 else False
 
-    def insert_item_type(item_type: ItemType, cur: Cursor) -> bool:
+    def insert_item_type(item_type: ItemType, cur: Cursor, con: Connection) -> bool:
         cur.execute('''INSERT INTO item_type VALUES (?, ?, ?)''',
                     [item_type.name, item_type.description, item_type.positions])
+        con.commit()
         return True if cur.lastrowid > 0 else False
 
-    def insert_item(item: Item, cur: Cursor) -> bool:
+    def insert_item(item: Item, cur: Cursor, con: Connection) -> bool:
         cur.execute('''INSERT INTO item VALUES (?, ?, ?, ?, ?)''',
                     [item.shelve_id, item.item_type_id, item.position, item.name, item.description])
+        con.commit()
         return True if cur.lastrowid > 0 else False
 
     # *Actualización de datos
-    def update_room(room_id: int, room: Room, cur: Cursor) -> bool:
+    def update_room(room_id: int, room: Room, cur: Cursor, con: Connection) -> bool:
         cur.execute('''UPDATE rooms SET name= ?, description= ?, positions= ? WHERE room_id= ?''',
                     [room.name, room.description, room.positions, room_id])
+        con.commit()
         return True if cur.lastrowid > 0 else False
 
-    def update_shelving(shelving: Shelving, shelving_id: int, cur: Cursor) -> bool:
+    def update_shelving(shelving: Shelving, shelving_id: int, cur: Cursor, con: Connection) -> bool:
         cur.execute('''UPDATE shelving SET room_id= ?, code= ?, positions= ? WHERE shelving_id= ?''',
                     [shelving.room_id, shelving.code, shelving.positions, shelving_id])
+        con.commit()
         return True if cur.lastrowid > 0 else False
 
-    def update_shelve(shelf: Shelf, shelve_id: int, cur: Cursor) -> bool:
+    def update_shelf(shelf: Shelf, shelve_id: int, cur: Cursor, con: Connection) -> bool:
         cur.execute('''UPDATE shelf SET shelve_id= ?, code= ?, position= ? WHERE shelve_id= ?''',
                     [shelf.shelving_id, shelf.code, shelf.position, shelve_id])
+        con.commit()
         return True if cur.lastrowid > 0 else False
 
     def update_item_type(item_type: ItemType, item_type_id: int, cur: Cursor) -> bool:
@@ -202,31 +214,37 @@ class DatabaseUtils:
                     [item_type.name, item_type.description, item_type.positions, item_type_id])
         return True if cur.lastrowid > 0 else False
 
-    def update_item(item: Item, item_id: int, cur: Cursor) -> bool:
+    def update_item(item: Item, item_id: int, cur: Cursor, con: Connection) -> bool:
         cur.execute('''UPDATE item SET shelve_id= ?, item_type_id= ?, position= ?,name= ?, description= ? WHERE id= ?''',
                     [item.shelve_id, item.item_type_id, item.position, item.name, item.description, item_id])
+        con.commit()
         return True if cur.lastrowid > 0 else False
 
     # *Borrado de datos
-    def delete_room(room_id: int, cur: Cursor) -> bool:
+    def delete_room(room_id: int, cur: Cursor, con: Connection) -> bool:
         cur.execute('''DELETE FROM room WHERE id= ?''', [room_id])
+        con.commit()
         return True if cur.lastrowid > 0 else False
 
-    def delete_shelving(shelving_id: int, cur: Cursor) -> bool:
+    def delete_shelving(shelving_id: int, cur: Cursor, con: Connection) -> bool:
         cur.execute(
             '''DELETE FROM shelving WHERE id = ?''', [shelving_id])
+        con.commit()
         return True if cur.lastrowid > 0 else False
 
-    def delete_shelve(shelve_id: int, cur: Cursor) -> bool:
+    def delete_shelve(shelve_id: int, cur: Cursor, con: Connection) -> bool:
         cur.execute(
             '''DELETE FROM shelf WHERE id = ?''', [shelve_id])
+        con.commit()
         return True if cur.lastrowid > 0 else False
 
-    def delete_item(item_id: int, cur: Cursor) -> bool:
+    def delete_item(item_id: int, cur: Cursor, con: Connection) -> bool:
         cur.execute('''DELETE FROM item WHERE id = ?''', [item_id])
+        con.commit()
         return True if cur.lastrowid > 0 else False
 
-    def delete_item_type(item_type_id: int, cur: Cursor) -> bool:
+    def delete_item_type(item_type_id: int, cur: Cursor, con: Connection) -> bool:
         cur.execute(
             '''DELETE FROM item_type WHERE id = ?''', [item_type_id])
+        con.commit()
         return True if cur.lastrowid > 0 else False

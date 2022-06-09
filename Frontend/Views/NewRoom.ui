@@ -9,12 +9,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>654</width>
-    <height>239</height>
+    <width>666</width>
+    <height>293</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Crear nueva habitación</string>
+  </property>
+  <property name="layoutDirection">
+   <enum>Qt::LeftToRight</enum>
   </property>
   <property name="autoFillBackground">
    <bool>false</bool>
@@ -22,10 +25,10 @@
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>30</y>
-     <width>481</width>
-     <height>171</height>
+     <x>80</x>
+     <y>16</y>
+     <width>521</width>
+     <height>271</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -53,7 +56,17 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="nameText"/>
+       <widget class="QLineEdit" name="textName">
+        <property name="maxLength">
+         <number>20</number>
+        </property>
+        <property name="cursorPosition">
+         <number>0</number>
+        </property>
+        <property name="placeholderText">
+         <string>Max. 20 caracteres</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -72,7 +85,13 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox_2">
+       <widget class="QSpinBox" name="spinMeters1">
+        <property name="keyboardTracking">
+         <bool>false</bool>
+        </property>
+        <property name="showGroupSeparator" stdset="0">
+         <bool>false</bool>
+        </property>
         <property name="suffix">
          <string>m</string>
         </property>
@@ -100,7 +119,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox_3">
+       <widget class="QSpinBox" name="spinMeters2">
         <property name="suffix">
          <string>m</string>
         </property>
@@ -129,16 +148,33 @@
        </widget>
       </item>
       <item>
-       <widget class="QTextEdit" name="eTextDescription">
-        <property name="maximumSize">
-         <size>
-          <width>1000</width>
-          <height>1000</height>
-         </size>
+       <widget class="QPlainTextEdit" name="etDescription">
+        <property name="placeholderText">
+         <string>Max. 255 caracteres</string>
         </property>
        </widget>
       </item>
      </layout>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_5">
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::NoTextInteraction</set>
+      </property>
+     </widget>
     </item>
     <item>
      <widget class="QDialogButtonBox" name="buttonBox">
@@ -146,7 +182,7 @@
        <enum>Qt::Horizontal</enum>
       </property>
       <property name="standardButtons">
-       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Save</set>
       </property>
       <property name="centerButtons">
        <bool>true</bool>

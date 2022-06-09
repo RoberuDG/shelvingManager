@@ -10,17 +10,28 @@
 
 from sqlite3 import Cursor, Error
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 from shelvingManager.Backend.Controller.database_controller import DatabaseController
+
 from shelvingManager.Backend.Controller.item_controller import ItemController
 from shelvingManager.Backend.Controller.item_type_controller import ItemTypeController
 from shelvingManager.Backend.Controller.room_controller import RoomController
 from shelvingManager.Backend.Controller.shelving_controller import ShelvingController
 from shelvingManager.Backend.Controller.shelf_controller import ShelfController
-from shelvingManager.Models.room import Room
 
 
 class Ui_MainWindow(object):
+
+    dbc = DatabaseController()
+    conn = dbc.connect_to_database()
+    rc = RoomController(conn)
+    sc = ShelvingController(conn)
+    sfc = ShelfController(conn)
+    ic = ItemController(conn)
+    rooms = rc.get_all_rooms()
+    shelvings = []
+    shelves = []
+    items = []
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1711, 853)
@@ -79,6 +90,7 @@ class Ui_MainWindow(object):
             "actionEliminar_habitaci_n_2")
         self.actionNewRoom = QtWidgets.QAction(MainWindow)
         self.actionNewRoom.setObjectName("actionNewRoom")
+        self.actionNewRoom.triggered.connect(self.new_room_window)
         self.actionDeleteRoom = QtWidgets.QAction(MainWindow)
         self.actionDeleteRoom.setObjectName("actionDeleteRoom")
         self.actionEditRoom = QtWidgets.QAction(MainWindow)
@@ -147,53 +159,41 @@ class Ui_MainWindow(object):
             _translate("MainWindow", "Eliminar balda"))
 
     # *Método para cargar la vista de árbol de los objetos
-    def populate_templates(self, cur):
-        rooms = RoomController.get_all_rooms(cur)
-        for room in rooms:
+    def populate_templates(self):
+        for room in self.rooms:
             child = QtWidgets.QTreeWidgetItem(self.itemsWidget)
             child.setText(0, room.name)
             self.itemsWidget.addTopLevelItem(child)
-            shelvings = ShelvingController.get_shelvings_by_room_id(
-                room.id, cur)
+            shelvings = self.sc.get_shelvings_by_room_id(room.id)
             for shelving in shelvings:
+                self.shelvings.append(shelving)
                 child2 = QtWidgets.QTreeWidgetItem(child)
                 child2.setText(1, shelving.code)
                 child.addChild(child2)
-                shelves = ShelfController.get_shelve_by_shelving_id(
-                    shelving.id, cur)
+                shelves = self.sfc.get_shelf_by_shelving_id(
+                    shelving.id)
                 for shelf in shelves:
+                    self.shelvings.append(shelf)
                     child3 = QtWidgets.QTreeWidgetItem(child2)
                     child3.setText(2, shelf.code)
                     child2.addChild(child3)
-                    items = ItemController.get_items_by_shelf_id(
-                        shelf.id, cur)
+                    items = self.ic.get_items_by_shelf_id(
+                        shelf.id)
                     for item in items:
+                        self.items.append(item)
                         child4 = QtWidgets.QTreeWidgetItem(child3)
                         child4.setText(3, item.name)
                         child3.addChild(child4)
 
-    def insert_room(self, room: Room, cur: Cursor):
-        RoomController.insert_room(room, cur)
-
-
-def connect_to_db():
-    try:
-        conn = DatabaseController.connect_to_database()
-        # DatabaseController.create_database(conn)
-        return conn
-    except Error as e:
-        print(e)
-        return None
-
+    def new_room_window(self):
+        from new_room import Ui_Dialog as NewRoomDialog
+        NewRoomDialog.room_window(self)
 
 if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
+    app = QtWidgets.QApplication([])
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
-    conn = connect_to_db()
-    ui.populate_templates(conn)
-    conn.close()
+    ui.populate_templates()
     MainWindow.show()
-    sys.exit(app.exec_())
+    app.exec_()

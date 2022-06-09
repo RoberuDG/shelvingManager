@@ -1,40 +1,54 @@
 from shelvingManager.Backend.Database.database import DatabaseUtils as db
 
-from sqlite3 import Cursor
+from sqlite3 import Connection
 
 from shelvingManager.Models.shelving import Shelving
 
+from shelvingManager.Backend.Controller.database_controller import DatabaseController
+import json as js
 
 class ShelvingController:
 
-    def __init__(self, cur: Cursor):
-        self.cur = cur
+    cur_trace = None
+    conn  = None
 
-    def insert_shelving(shelving: Shelving, cur: Cursor) -> bool:
-        return db.insert_shelving(shelving, cur)
+    def __init__(self, conn: Connection):
+        self.conn = conn
+        self.conn.set_trace_callback(print)
+        self.cur_trace = self.conn.cursor()
 
-    def get_shelving(shelving_id: int, cur: Cursor) -> Shelving:
-        return Shelving(db.get_shelving_object(shelving_id, cur).fetchone())
+    def insert_shelving(self, shelving: Shelving) -> bool:
+        value = db.insert_shelving(shelving, self.cur_trace, self.conn)
+        return value
 
-    def get_all_shelvings(cur: Cursor) -> list:
+    def get_shelving(self, shelving_id: int) -> Shelving:
+        value = Shelving(db.get_shelving_object(shelving_id, self.cur_trace).fetchone())
+        return value
+
+    def get_all_shelvings(self) -> list:
         shelvings = []
-        for row in db.get_all_shelvings_object(cur):
+        for row in db.get_all_shelvings_object(self.cur_trace):
             shelvings.append(row)
-        return shelvings
+        value = shelvings
+        return value
 
-    def delete_shelving(shelving_id: int, cur: Cursor) -> bool:
-        return db.delete_shelving(shelving_id, cur)
+    def delete_shelving(self, shelving_id: int) -> bool:
+        value = db.delete_shelving(shelving_id, self.cur_trace, self.conn)
+        return value
 
-    def update_shelving(shelving: Shelving, cur: Cursor) -> bool:
-        return db.update_shelving(shelving, cur)
+    def update_shelving(self, shelving: Shelving) -> bool:
+        value = db.update_shelving(shelving, self.cur_trace, self.conn)
+        return value
 
-    def get_shelving_id(shelving_name: str, cur: Cursor) -> int:
-        return db.get_shelving_id(shelving_name, cur)
+    def get_shelving_id(self, shelving_name: str) -> int:
+        value = db.get_shelving_id(shelving_name, self.cur_trace)
+        return value
 
-    def get_shelvings_by_room_id(room_id: int, cur: Cursor) -> list:
+    def get_shelvings_by_room_id(self, room_id: int) -> list:
         shelvings = []
-        for row in db.get_shelving_by_room_id(room_id, cur):
+        for row in db.get_shelving_by_room_id(room_id, self.cur_trace):
             if row is not None:
                 shelving = Shelving(row[0], row[1], row[2], row[3])
                 shelvings.append(shelving)
-        return shelvings
+        value = shelvings
+        return value

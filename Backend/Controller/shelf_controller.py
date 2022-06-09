@@ -1,43 +1,56 @@
 from shelvingManager.Backend.Database.database import DatabaseUtils as db
 
-from sqlite3 import Cursor
+from sqlite3 import Connection
 
 from shelvingManager.Models.shelf import Shelf
+
+from shelvingManager.Backend.Controller.database_controller import DatabaseController
+import json as js
 
 
 class ShelfController:
 
-    def __init__(self, cur: Cursor):
-        self.cur = cur
+    cur_trace = None
+    conn  = None
 
-    def insert_shelf(shelf: Shelf, cur: Cursor) -> bool:
-        return db.insert_shelve(shelf, cur)
+    def __init__(self, conn: Connection):
+        self.conn = conn
+        self.conn.set_trace_callback(print)
+        self.cur_trace = self.conn.cursor()
 
-    def get_shelf(shelf_id: int, cur: Cursor) -> Shelf:
-        return Shelf(db.get_shelves_object(shelf_id, cur).fetchone())
+    def insert_shelf(self, shelf: Shelf) -> bool:
+        value = db.insert_shelve(shelf, self.cur_trace, self.conn)
 
-    def get_all_shelves(cur: Cursor):
-        shelfs = []
-        for row in db.get_all_shelves_object(cur):
-            if row is not None:
-                shelf = Shelf(row[0], row[1], row[2], row[3])
-                shelfs.append(shelf)
-            shelfs.append(row)
-        return shelfs
+    def get_shelf(self, shelf_id: int) -> Shelf:
+        value = Shelf(db.get_shelve_object(shelf_id, self.cur_trace).fetchone())
 
-    def delete_shelf(shelf_id: int, cur: Cursor) -> bool:
-        return db.delete_shelve(shelf_id, cur)
-
-    def update_shelf(shelf: Shelf, cur: Cursor) -> bool:
-        return db.update_shelve(shelf, cur)
-
-    def get_shelf_id(shelf_name: str, cur: Cursor) -> int:
-        return db.get_shelve_id(shelf_name, cur)
-
-    def get_shelve_by_shelving_id(shelving_id: int, cur: Cursor) -> Shelf:
+    def get_all_shelves(self) -> list:
         shelves = []
-        for row in db.get_shelves_by_shelving_id(shelving_id, cur):
+        for row in db.get_all_shelves_object(self.cur_trace):
             if row is not None:
                 shelf = Shelf(row[0], row[1], row[2], row[3])
                 shelves.append(shelf)
+            shelves.append(row)
+        value = shelves
         return shelves
+
+    def delete_shelf(self, shelf_id: int) -> bool:
+        value = db.delete_shelve(shelf_id, self.cur_trace, self.conn)
+        return value
+
+    def update_shelf(self, shelf: Shelf) -> bool:
+        value = db.update_shelf(shelf, shelf.id, self.cur_trace, self.conn)
+        return value
+
+    def get_shelf_id(self, shelf_name: str) -> int:
+        value = db.get_shelve_id(shelf_name, self.cur_trace)
+        return value
+
+    def get_shelf_by_shelving_id(self, shelving_id: int) -> list:
+        shelves = []
+        for row in db.get_shelves_by_shelving_id(shelving_id, self.cur_trace):
+            if row is not None:
+                shelf = Shelf(row[0], row[1], row[2], row[3])
+                shelves.append(shelf)
+        value = shelves
+        return value

@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS rooms (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT(20) NOT NULL,
     description TEXT(255),
-    positions INTEGER NOT NULL,
+    positions TEXT NOT NULL,
     creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 

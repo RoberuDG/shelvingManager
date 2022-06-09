@@ -1,32 +1,44 @@
 from shelvingManager.Backend.Database.database import DatabaseUtils as db
 
-from sqlite3 import Cursor
+from sqlite3 import Connection, Cursor
 
 from shelvingManager.Models.item_type import ItemType
 
+from shelvingManager.Backend.Controller.database_controller import DatabaseController
 
 class ItemTypeController:
 
-    def __init__(self, cur: Cursor):
-        self.cur = cur
+    cur_trace = None
+    conn  = None
 
-    def insert_item_type(item_type: ItemType, cur: Cursor) -> bool:
-        return db.insert_item_type(item_type, cur)
+    def __init__(self, conn: Connection):
+        self.conn = conn
+        self.conn.set_trace_callback(print)
+        self.cur_trace = self.conn.cursor()
 
-    def get_item_type(item_type_id: int, cur: Cursor) -> ItemType:
-        return ItemType(db.get_item_type_object(item_type_id, cur).fetchone())
+    def insert_item_type(self, item_type: ItemType) -> bool:
+        value = db.insert_item_type(item_type, self.cur_trace, self.conn)
+        return value
 
-    def get_all_item_types(cur: Cursor):
+    def get_item_type(self, item_type_id: int) -> ItemType:
+        value = ItemType(db.get_item_type_object(item_type_id, self.cur_trace).fetchone())
+        return value
+
+    def get_all_item_types(self) -> list:
         item_types = []
-        for row in db.get_all_item_types_object(cur):
+        for row in db.get_all_item_types_object(self.cur_trace):
             item_types.append(row)
-        return item_types
+        value = item_types
+        return value
 
-    def delete_item_type(item_type_id: int, cur: Cursor) -> bool:
-        return db.delete_item_type(item_type_id, cur)
+    def delete_item_type(self, item_type_id: int, ) -> bool:
+        value = db.delete_item_type(item_type_id, self.cur_trace, self.conn)
+        return value
 
-    def update_item_type(item_type: ItemType, cur: Cursor) -> bool:
-        return db.update_item_type(item_type, cur)
+    def update_item_type(self, item_type: ItemType, ) -> bool:
+        value = db.update_item_type(item_type, self.cur_trace, self.conn)
+        return value
 
-    def get_item_type_id(item_type_name: str, cur: Cursor) -> int:
-        return db.get_item_type_id(item_type_name, cur)
+    def get_item_type_id(self, item_type_name: str, ) -> int:
+        value = db.get_item_type_id(item_type_name, self.cur_trace)
+        return value
