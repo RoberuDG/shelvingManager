@@ -30,8 +30,15 @@ class RoomController:
         return value
 
     def get_room(self, room_id: int) -> Room:
-        value = Room(db.get_room_object(room_id, self.cur_trace).fetchone())
-        return value
+        value = db.get_room_object(room_id, self.cur_trace).fetchone()
+        room = Room(value[1], value[3], value[2], value[0])
+        return room
+
+    def get_room_size(self, room_id: int) -> list:
+        room = self.get_room(room_id)
+        value = js.loads(room.positions)
+        size = [value["size_x"], value["size_y"]]
+        return size
 
     def get_all_rooms(self) -> list:
         rooms = []

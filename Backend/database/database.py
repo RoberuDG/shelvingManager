@@ -76,13 +76,13 @@ class DatabaseUtils:
 
         # *Métodos de lectura de objetos
     def get_room_object(room_id: int, cur: Cursor) -> Cursor:
-        return cur.execute('''SELECT id, name, description, positions FROM rooms WHERE room_id = ? ''', [room_id])
+        return cur.execute('''SELECT id, name, description, positions FROM rooms WHERE id = ? ''', [room_id])
 
     def get_shelving_object(shelving_id: int, cur: Cursor) -> Cursor:
-        return cur.execute('''SELECT room_id, code, positions FROM shelves WHERE shelving_id = ? ''', [shelving_id])
+        return cur.execute('''SELECT room_id, code, positions FROM shelves WHERE id = ? ''', [shelving_id])
 
-    def get_shelve_object(shelve_id: int, cur: Cursor) -> Cursor:
-        return cur.execute('''SELECT shelving_id, code, order FROM shelves WHERE shelve_id = ? ''', [shelve_id])
+    def get_shelf_object(shelve_id: int, cur: Cursor) -> Cursor:
+        return cur.execute('''SELECT shelving_id, code, order FROM shelves WHERE id = ? ''', [shelve_id])
 
     def get_item_type_object(item_type_id: int, cur: Cursor) -> Cursor:
         return cur.execute('''SELECT name, description, positions FROM item_types WHERE item_type_type_id = ? ''', [item_type_id])
@@ -90,20 +90,8 @@ class DatabaseUtils:
     def get_item_object(item_id: int, cur: Cursor) -> Cursor:
         return cur.execute('''SELECT shelve_id, item_type_id, position, name, description FROM items WHERE item_id = ? ''', [item_id])
 
-    def get_room_object(room_id: int, cur: Cursor) -> Cursor:
-        return cur.execute('''SELECT name, description, positions FROM rooms WHERE room_id = ? ''', [room_id])
-
     def get_shelving_object(shelving_id: int, cur: Cursor) -> Cursor:
         return cur.execute('''SELECT room_id, code, positions FROM shelves WHERE shelving_id = ? ''', [shelving_id])
-
-    def get_shelve_object(shelve_id: int, cur: Cursor) -> Cursor:
-        return cur.execute('''SELECT shelving_id, code, order FROM shelves WHERE shelve_id = ? ''', [shelve_id])
-
-    def get_item_type_object(item_type_id: int, cur: Cursor) -> Cursor:
-        return cur.execute('''SELECT name, description, positions FROM item_types WHERE item_type_type_id = ? ''', [item_type_id])
-
-    def get_item_object(item_id: int, cur: Cursor) -> Cursor:
-        return cur.execute('''SELECT shelve_id, item_type_id, position, name, description FROM items WHERE item_id = ? ''', [item_id])
 
     def get_all_rooms_object(cur: Cursor) -> Cursor:
         return cur.execute('''SELECT id, name, description, positions FROM rooms''')
@@ -119,21 +107,6 @@ class DatabaseUtils:
 
     def get_all_items_object(cur: Cursor) -> Cursor:
         return cur.execute('''SELECT shelve_id, item_type_id, position, name, description FROM items''')
-
-    def get_room_object(room_id: int, cur: Cursor) -> Cursor:
-        return cur.execute('''SELECT name, description, positions FROM rooms WHERE room_id = ? ''', [room_id])
-
-    def get_shelving_object(shelving_id: int, cur: Cursor) -> Cursor:
-        return cur.execute('''SELECT room_id, code, positions FROM shelves WHERE shelving_id = ? ''', [shelving_id])
-
-    def get_shelve_object(shelve_id: int, cur: Cursor) -> Cursor:
-        return cur.execute('''SELECT shelving_id, code, order FROM shelves WHERE shelve_id = ? ''', [shelve_id])
-
-    def get_item_type_object(item_type_id: int, cur: Cursor) -> Cursor:
-        return cur.execute('''SELECT name, description, positions FROM item_types WHERE item_type_type_id = ? ''', [item_type_id])
-
-    def get_item_object(item_id: int, cur: Cursor) -> Cursor:
-        return cur.execute('''SELECT shelve_id, item_type_id, position, name, description FROM items WHERE item_id = ? ''', [item_id])
 
     def get_room_id(room_name: str, cur: Cursor) -> Cursor:
         return cur.execute('''SELECT room_id FROM rooms WHERE name = ? ''', [room_name])

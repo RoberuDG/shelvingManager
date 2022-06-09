@@ -6,47 +6,37 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1711</width>
-    <height>853</height>
+    <width>1447</width>
+    <height>854</height>
    </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1447</width>
+    <height>854</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QFrame" name="frame">
-    <property name="geometry">
-     <rect>
-      <x>440</x>
-      <y>0</y>
-      <width>801</width>
-      <height>811</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <widget class="QWidget" name="gridLayoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>20</y>
-       <width>801</width>
-       <height>811</height>
-      </rect>
-     </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <property name="sizeConstraint">
-       <enum>QLayout::SetMaximumSize</enum>
-      </property>
-      <item row="0" column="0">
+   <property name="maximumSize">
+    <size>
+     <width>1461</width>
+     <height>811</height>
+    </size>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
        <widget class="QTreeWidget" name="itemsWidget">
+        <property name="maximumSize">
+         <size>
+          <width>500</width>
+          <height>16777215</height>
+         </size>
+        </property>
         <column>
          <property name="text">
           <string>Habitaciones</string>
@@ -69,58 +59,38 @@
         </column>
        </widget>
       </item>
+      <item>
+       <widget class="QTableWidget" name="tableWidget"/>
+      </item>
+      <item>
+       <widget class="Line" name="line">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
      </layout>
-    </widget>
-   </widget>
-   <widget class="Line" name="line">
-    <property name="geometry">
-     <rect>
-      <x>420</x>
-      <y>0</y>
-      <width>21</width>
-      <height>811</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
-   <widget class="QListView" name="propertyList">
-    <property name="geometry">
-     <rect>
-      <x>1260</x>
-      <y>0</y>
-      <width>331</width>
-      <height>381</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="Line" name="line_2">
-    <property name="geometry">
-     <rect>
-      <x>1240</x>
-      <y>0</y>
-      <width>21</width>
-      <height>811</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1711</width>
+     <width>1447</width>
      <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuEditar">
     <property name="title">
-     <string>Editar</string>
+     <string>Entidades</string>
     </property>
     <widget class="QMenu" name="menuRoom">
      <property name="enabled">
@@ -161,7 +131,15 @@
     <addaction name="menuEstanter_a"/>
     <addaction name="menuBalda"/>
    </widget>
+   <widget class="QMenu" name="menuTipos_de_objeto">
+    <property name="title">
+     <string>Tipos de objeto</string>
+    </property>
+    <addaction name="actionVer"/>
+    <addaction name="actionCrear"/>
+   </widget>
    <addaction name="menuEditar"/>
+   <addaction name="menuTipos_de_objeto"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionEliminar_habitaci_n">
@@ -212,6 +190,21 @@
   <action name="actionEliminar_balda">
    <property name="text">
     <string>Eliminar balda</string>
+   </property>
+  </action>
+  <action name="action">
+   <property name="text">
+    <string>Tipos de objetos</string>
+   </property>
+  </action>
+  <action name="actionVer">
+   <property name="text">
+    <string>Ver</string>
+   </property>
+  </action>
+  <action name="actionCrear">
+   <property name="text">
+    <string>Crear</string>
    </property>
   </action>
  </widget>
