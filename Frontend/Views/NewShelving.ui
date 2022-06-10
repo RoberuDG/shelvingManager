@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>863</width>
-    <height>689</height>
+    <width>1284</width>
+    <height>590</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,126 +16,246 @@
   <property name="inputMethodHints">
    <set>Qt::ImhFormattedNumbersOnly</set>
   </property>
-  <widget class="QWidget" name="verticalLayoutWidget_2">
+  <widget class="QWidget" name="horizontalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>180</x>
-     <y>30</y>
-     <width>521</width>
-     <height>334</height>
+     <x>40</x>
+     <y>10</y>
+     <width>1201</width>
+     <height>541</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout_2">
-    <property name="spacing">
-     <number>15</number>
-    </property>
-    <property name="sizeConstraint">
-     <enum>QLayout::SetDefaultConstraint</enum>
-    </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_4">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="spacing">
+       <number>15</number>
+      </property>
       <property name="sizeConstraint">
        <enum>QLayout::SetDefaultConstraint</enum>
       </property>
       <item>
-       <widget class="QLabel" name="label">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="sizeConstraint">
+         <enum>QLayout::SetDefaultConstraint</enum>
+        </property>
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>50</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>50</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Código:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="textName">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>150</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="inputMethodHints">
+           <set>Qt::ImhNone</set>
+          </property>
+          <property name="maxLength">
+           <number>3</number>
+          </property>
+          <property name="cursorPosition">
+           <number>0</number>
+          </property>
+          <property name="placeholderText">
+           <string>Max. 3 caracteres</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Tamaño:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Maximum</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_6">
+          <property name="maximumSize">
+           <size>
+            <width>50</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Largo</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinMeters1">
+          <property name="keyboardTracking">
+           <bool>false</bool>
+          </property>
+          <property name="showGroupSeparator" stdset="0">
+           <bool>false</bool>
+          </property>
+          <property name="suffix">
+           <string>m</string>
+          </property>
+          <property name="minimum">
+           <number>2</number>
+          </property>
+          <property name="maximum">
+           <number>100</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="label_4">
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Descripción:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPlainTextEdit" name="etDescription">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>100</height>
+           </size>
+          </property>
+          <property name="placeholderText">
+           <string>Max. 255 caracteres</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_5">
         <property name="font">
          <font>
-          <pointsize>10</pointsize>
+          <pointsize>20</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
          </font>
         </property>
         <property name="text">
-         <string>Código:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="textName">
-        <property name="inputMethodHints">
-         <set>Qt::ImhNone</set>
-        </property>
-        <property name="maxLength">
-         <number>20</number>
-        </property>
-        <property name="cursorPosition">
-         <number>0</number>
-        </property>
-        <property name="placeholderText">
-         <string>Max. 20 caracteres</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QLabel" name="label_2">
-        <property name="font">
-         <font>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Tamaño:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_6">
-        <property name="font">
-         <font>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Largo</string>
+         <string/>
         </property>
         <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QSpinBox" name="spinMeters1">
-        <property name="keyboardTracking">
-         <bool>false</bool>
-        </property>
-        <property name="showGroupSeparator" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="suffix">
-         <string>m</string>
-        </property>
-        <property name="minimum">
-         <number>1</number>
-        </property>
-        <property name="maximum">
-         <number>100</number>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_7">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>X</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+         <set>Qt::AlignCenter</set>
         </property>
         <property name="textInteractionFlags">
          <set>Qt::NoTextInteraction</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="Line" name="line">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
@@ -147,89 +267,99 @@
          </font>
         </property>
         <property name="text">
-         <string>Ancho</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         <string>Posición</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinMeters2">
-        <property name="suffix">
-         <string>m</string>
+       <layout class="QHBoxLayout" name="horizontalLayout_10">
+        <item>
+         <widget class="QRadioButton" name="radioButton_2">
+          <property name="text">
+           <string>Horizontal</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="radioButton">
+          <property name="text">
+           <string>Vertical</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_12">
+        <item>
+         <widget class="QLabel" name="label_9">
+          <property name="text">
+           <string>Fila / Columna</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinBox_3"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_9">
+        <item>
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>Inicio</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinBox_2"/>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_8">
+          <property name="text">
+           <string>Fin</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinBox"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QDialogButtonBox" name="buttonBox">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
-        <property name="minimum">
-         <number>1</number>
+        <property name="standardButtons">
+         <set>QDialogButtonBox::Cancel|QDialogButtonBox::Save</set>
         </property>
-        <property name="maximum">
-         <number>100</number>
+        <property name="centerButtons">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
-      <item>
-       <widget class="QLabel" name="label_4">
-        <property name="font">
-         <font>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Descripción:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPlainTextEdit" name="etDescription">
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>100</height>
-         </size>
-        </property>
-        <property name="placeholderText">
-         <string>Max. 255 caracteres</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <widget class="QLabel" name="label_5">
-      <property name="font">
-       <font>
-        <pointsize>20</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-      <property name="textInteractionFlags">
-       <set>Qt::NoTextInteraction</set>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QDialogButtonBox" name="buttonBox">
+     <spacer name="horizontalSpacer_4">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <property name="standardButtons">
-       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Save</set>
+      <property name="sizeType">
+       <enum>QSizePolicy::Minimum</enum>
       </property>
-      <property name="centerButtons">
-       <bool>true</bool>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>20</height>
+       </size>
       </property>
-     </widget>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QTableWidget" name="tableWidget"/>
     </item>
    </layout>
   </widget>

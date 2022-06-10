@@ -35,6 +35,10 @@ class Ui_MainWindow(object):
     shelves = []
     items = []
     item_types = []
+    selected_room = None
+    selected_shelf = None
+    selected_shelving = None
+    selected_item = None
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -51,9 +55,10 @@ class Ui_MainWindow(object):
         self.itemsWidget.setMaximumSize(QtCore.QSize(500, 16777215))
         self.itemsWidget.setObjectName("itemsWidget")
         self.itemsWidget.itemDoubleClicked.connect(self.draw)
-        self.itemsWidget.itemClicked.connect(self.controll_buttons)
+        self.itemsWidget.itemDoubleClicked.connect(self.controll_buttons)
         self.horizontalLayout.addWidget(self.itemsWidget)
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
+        self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(0)
         self.tableWidget.setRowCount(0)
@@ -103,6 +108,7 @@ class Ui_MainWindow(object):
         self.actionEditRoom.setEnabled(False)
         self.actionCreateShelving = QtWidgets.QAction(MainWindow)
         self.actionCreateShelving.setObjectName("actionCreateShelving")
+        self.actionCreateShelving.triggered.connect(self.new_shelving_window)
         self.actionEditShelving = QtWidgets.QAction(MainWindow)
         self.actionEditShelving.setObjectName("actionEditShelving")
         self.actionRemoveShelving = QtWidgets.QAction(MainWindow)
@@ -187,6 +193,7 @@ class Ui_MainWindow(object):
                 self.shelvings.append(shelving)
                 child2 = QtWidgets.QTreeWidgetItem(child)
                 child2.setText(1, shelving.code)
+                child2.setData(1, QtCore.Qt.UserRole, shelving)
                 child.addChild(child2)
                 shelves = self.sfc.get_shelf_by_shelving_id(
                     shelving.id)
@@ -208,6 +215,13 @@ class Ui_MainWindow(object):
         NewRoomDialog.room_window(self)
         self.itemsWidget.clear()
         self.rooms = self.rc.get_all_rooms()
+        self.populate_templates()
+
+    def new_shelving_window(self):
+        from new_shelving import Ui_Dialog as NewShelvingDialog
+        NewShelvingDialog.shelving_window(self, self.tableWidget, self.selected_room.id)
+        #TODO: Método para crear estantería
+        self.itemsWidget.clear()
         self.populate_templates()
 
     def draw_room(self, room_id):
@@ -235,12 +249,15 @@ class Ui_MainWindow(object):
     def draw(self, item):
         index = item.data(0, QtCore.Qt.UserRole)
         if isinstance(index, Room):
+            self.selected_room = index
             self.draw_room(index.id)
             pass
         elif isinstance(index, Shelving):
+            self.selected_shelving = index
             self.draw_shelving(index.id)
             pass
         elif isinstance(index, Shelf):
+            self.selected_shelf = index
             self.draw_shelf(index.id)
             pass
 

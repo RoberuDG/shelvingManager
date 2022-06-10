@@ -7,14 +7,15 @@ class DatabaseController:
 
     def __init__(self):
         self.conn = self.connect_to_database()
+        self.create_database()
         self.conn.set_trace_callback(print)
 
     def connect_to_database(self):
         con = db.connect_to_db()
         return con
 
-    def create_database(con: Connection):
-        return db.create_db(con)
+    def create_database(self):
+        return db.create_db(self.conn)
 
-    def close_database(con: Connection):
-        db.close_db(con)
+    def close_database(self):
+        db.close_db(self.conn)
