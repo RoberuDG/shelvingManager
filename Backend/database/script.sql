@@ -11,7 +11,8 @@ CREATE TABLE IF NOT EXISTS rooms (
 CREATE TABLE IF NOT EXISTS shelvings (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
     room_id INTEGER NOT NULL,
-    code INTEGER NOT NULL,
+    name TEXT(3) NOT NULL,
+    description TEXT(255),
     positions INTEGER NOT NULL,
     creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (room_id) REFERENCES rooms(id)
@@ -20,7 +21,8 @@ CREATE TABLE IF NOT EXISTS shelvings (
 CREATE TABLE IF NOT EXISTS shelves (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
     shelving_id INTEGER NOT NULL,
-    code INTEGER NOT NULL,
+    name TEXT(6) NOT NULL,
+    description TEXT(255),
     position INTEGER NOT NULL,
     creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (shelving_id) REFERENCES shelvings(id)

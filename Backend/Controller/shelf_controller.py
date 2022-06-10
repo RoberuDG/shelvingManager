@@ -4,7 +4,6 @@ from sqlite3 import Connection
 
 from shelvingManager.Models.shelf import Shelf
 
-from shelvingManager.Backend.Controller.database_controller import DatabaseController
 import json as js
 
 

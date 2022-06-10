@@ -20,6 +20,7 @@ from shelvingManager.Models.room import Room
 from shelvingManager.Models.shelf import Shelf
 from shelvingManager.Models.shelving import Shelving
 
+
 class Ui_MainWindow(object):
 
     dbc = DatabaseController()
@@ -37,11 +38,10 @@ class Ui_MainWindow(object):
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1447, 854)
-        MainWindow.setMaximumSize(QtCore.QSize(1447, 854))
-        MainWindow.showMaximized()
+        MainWindow.resize(1024, 768)
+        MainWindow.setMaximumSize(QtCore.QSize(1920, 1080))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.centralwidget.setMaximumSize(QtCore.QSize(1461, 811))
+        self.centralwidget.setMaximumSize(QtCore.QSize(1920, 1080))
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
@@ -50,6 +50,8 @@ class Ui_MainWindow(object):
         self.itemsWidget = QtWidgets.QTreeWidget(self.centralwidget)
         self.itemsWidget.setMaximumSize(QtCore.QSize(500, 16777215))
         self.itemsWidget.setObjectName("itemsWidget")
+        self.itemsWidget.itemDoubleClicked.connect(self.draw)
+        self.itemsWidget.itemClicked.connect(self.controll_buttons)
         self.horizontalLayout.addWidget(self.itemsWidget)
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
         self.tableWidget.setObjectName("tableWidget")
@@ -57,10 +59,12 @@ class Ui_MainWindow(object):
         self.tableWidget.setRowCount(0)
         self.horizontalLayout.addWidget(self.tableWidget)
         self.line = QtWidgets.QFrame(self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.line.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.line.sizePolicy().hasHeightForWidth())
         self.line.setSizePolicy(sizePolicy)
         self.line.setFrameShape(QtWidgets.QFrame.VLine)
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
@@ -76,39 +80,38 @@ class Ui_MainWindow(object):
         self.menuRoom = QtWidgets.QMenu(self.menuEditar)
         self.menuRoom.setEnabled(True)
         self.menuRoom.setObjectName("menuRoom")
-        self.menuEstanter_a = QtWidgets.QMenu(self.menuEditar)
-        self.menuEstanter_a.setEnabled(True)
-        self.menuEstanter_a.setObjectName("menuEstanter_a")
-        self.menuBalda = QtWidgets.QMenu(self.menuEditar)
-        self.menuBalda.setEnabled(True)
-        self.menuBalda.setObjectName("menuBalda")
-        self.menuTipos_de_objeto = QtWidgets.QMenu(self.menubar)
-        self.menuTipos_de_objeto.setObjectName("menuTipos_de_objeto")
+        self.menuShelving = QtWidgets.QMenu(self.menuEditar)
+        self.menuShelving.setEnabled(False)
+        self.menuShelving.setObjectName("menuShelving")
+        self.menuShelf = QtWidgets.QMenu(self.menuEditar)
+        self.menuShelf.setEnabled(False)
+        self.menuShelf.setObjectName("menuShelf")
+        self.menuObjectTypes = QtWidgets.QMenu(self.menubar)
+        self.menuObjectTypes.setObjectName("menuObjectTypes")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-        self.actionEliminar_habitaci_n = QtWidgets.QAction(MainWindow)
-        self.actionEliminar_habitaci_n.setObjectName("actionEliminar_habitaci_n")
-        self.actionEliminar_habitaci_n_2 = QtWidgets.QAction(MainWindow)
-        self.actionEliminar_habitaci_n_2.setObjectName("actionEliminar_habitaci_n_2")
         self.actionNewRoom = QtWidgets.QAction(MainWindow)
         self.actionNewRoom.setObjectName("actionNewRoom")
         self.actionNewRoom.triggered.connect(self.new_room_window)
         self.actionDeleteRoom = QtWidgets.QAction(MainWindow)
         self.actionDeleteRoom.setObjectName("actionDeleteRoom")
+        self.actionDeleteRoom.setEnabled(False)
         self.actionEditRoom = QtWidgets.QAction(MainWindow)
         self.actionEditRoom.setObjectName("actionEditRoom")
-        self.actionCrear_estanter_a = QtWidgets.QAction(MainWindow)
-        self.actionCrear_estanter_a.setObjectName("actionCrear_estanter_a")
-        self.actionEditar_estanter_a = QtWidgets.QAction(MainWindow)
-        self.actionEditar_estanter_a.setObjectName("actionEditar_estanter_a")
-        self.actionEliminar_estanter_a = QtWidgets.QAction(MainWindow)
-        self.actionEliminar_estanter_a.setObjectName("actionEliminar_estanter_a")
-        self.actionA_adir_balda = QtWidgets.QAction(MainWindow)
-        self.actionA_adir_balda.setObjectName("actionA_adir_balda")
-        self.actionEliminar_balda = QtWidgets.QAction(MainWindow)
-        self.actionEliminar_balda.setObjectName("actionEliminar_balda")
+        self.actionEditRoom.setEnabled(False)
+        self.actionCreateShelving = QtWidgets.QAction(MainWindow)
+        self.actionCreateShelving.setObjectName("actionCreateShelving")
+        self.actionEditShelving = QtWidgets.QAction(MainWindow)
+        self.actionEditShelving.setObjectName("actionEditShelving")
+        self.actionRemoveShelving = QtWidgets.QAction(MainWindow)
+        self.actionRemoveShelving.setObjectName(
+            "actionRemoveShelving")
+        self.actionAddShelf = QtWidgets.QAction(MainWindow)
+        self.actionAddShelf.setObjectName("actionAddShelf")
+        self.actionRemoveShelf = QtWidgets.QAction(MainWindow)
+        self.actionRemoveShelf.setObjectName("actionRemoveShelf")
         self.action = QtWidgets.QAction(MainWindow)
         self.action.setObjectName("action")
         self.actionVer = QtWidgets.QAction(MainWindow)
@@ -119,20 +122,20 @@ class Ui_MainWindow(object):
         self.menuRoom.addAction(self.actionEditRoom)
         self.menuRoom.addSeparator()
         self.menuRoom.addAction(self.actionDeleteRoom)
-        self.menuEstanter_a.addAction(self.actionCrear_estanter_a)
-        self.menuEstanter_a.addAction(self.actionEditar_estanter_a)
-        self.menuEstanter_a.addSeparator()
-        self.menuEstanter_a.addAction(self.actionEliminar_estanter_a)
-        self.menuBalda.addAction(self.actionA_adir_balda)
-        self.menuBalda.addSeparator()
-        self.menuBalda.addAction(self.actionEliminar_balda)
+        self.menuShelving.addAction(self.actionCreateShelving)
+        self.menuShelving.addAction(self.actionEditShelving)
+        self.menuShelving.addSeparator()
+        self.menuShelving.addAction(self.actionRemoveShelving)
+        self.menuShelf.addAction(self.actionAddShelf)
+        self.menuShelf.addSeparator()
+        self.menuShelf.addAction(self.actionRemoveShelf)
         self.menuEditar.addAction(self.menuRoom.menuAction())
-        self.menuEditar.addAction(self.menuEstanter_a.menuAction())
-        self.menuEditar.addAction(self.menuBalda.menuAction())
-        self.menuTipos_de_objeto.addAction(self.actionVer)
-        self.menuTipos_de_objeto.addAction(self.actionCrear)
+        self.menuEditar.addAction(self.menuShelving.menuAction())
+        self.menuEditar.addAction(self.menuShelf.menuAction())
+        self.menuObjectTypes.addAction(self.actionVer)
+        self.menuObjectTypes.addAction(self.actionCrear)
         self.menubar.addAction(self.menuEditar.menuAction())
-        self.menubar.addAction(self.menuTipos_de_objeto.menuAction())
+        self.menubar.addAction(self.menuObjectTypes.menuAction())
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -140,38 +143,45 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.itemsWidget.headerItem().setText(0, _translate("MainWindow", "Habitaciones"))
+        self.itemsWidget.headerItem().setText(
+            0, _translate("MainWindow", "Habitaciones"))
         self.itemsWidget.headerItem().setText(1, _translate("MainWindow", "Estanterías"))
         self.itemsWidget.headerItem().setText(2, _translate("MainWindow", "Baldas"))
         self.itemsWidget.headerItem().setText(3, _translate("MainWindow", "Objetos"))
         self.menuEditar.setTitle(_translate("MainWindow", "Entidades"))
         self.menuRoom.setTitle(_translate("MainWindow", "Habitación"))
-        self.menuEstanter_a.setTitle(_translate("MainWindow", "Estantería"))
-        self.menuBalda.setTitle(_translate("MainWindow", "Balda"))
-        self.menuTipos_de_objeto.setTitle(_translate("MainWindow", "Tipos de objeto"))
-        self.actionEliminar_habitaci_n.setText(_translate("MainWindow", "Eliminar habitación"))
-        self.actionEliminar_habitaci_n_2.setText(_translate("MainWindow", "Eliminar habitación"))
-        self.actionNewRoom.setText(_translate("MainWindow", "Crear nueva habitación"))
-        self.actionDeleteRoom.setText(_translate("MainWindow", "Eliminar habitación"))
-        self.actionEditRoom.setText(_translate("MainWindow", "Editar habitación"))
-        self.actionCrear_estanter_a.setText(_translate("MainWindow", "Añadir estantería"))
-        self.actionEditar_estanter_a.setText(_translate("MainWindow", "Editar estantería"))
-        self.actionEliminar_estanter_a.setText(_translate("MainWindow", "Eliminar estantería"))
-        self.actionA_adir_balda.setText(_translate("MainWindow", "Añadir balda"))
-        self.actionEliminar_balda.setText(_translate("MainWindow", "Eliminar balda"))
+        self.menuShelving.setTitle(_translate("MainWindow", "Estantería"))
+        self.menuShelf.setTitle(_translate("MainWindow", "Balda"))
+        self.menuObjectTypes.setTitle(
+            _translate("MainWindow", "Tipos de objeto"))
+        self.actionNewRoom.setText(_translate(
+            "MainWindow", "Crear nueva habitación"))
+        self.actionDeleteRoom.setText(_translate(
+            "MainWindow", "Eliminar habitación"))
+        self.actionEditRoom.setText(_translate(
+            "MainWindow", "Editar habitación"))
+        self.actionCreateShelving.setText(
+            _translate("MainWindow", "Añadir estantería"))
+        self.actionEditShelving.setText(
+            _translate("MainWindow", "Editar estantería"))
+        self.actionRemoveShelving.setText(
+            _translate("MainWindow", "Eliminar estantería"))
+        self.actionAddShelf.setText(
+            _translate("MainWindow", "Añadir balda"))
+        self.actionRemoveShelf.setText(
+            _translate("MainWindow", "Eliminar balda"))
         self.action.setText(_translate("MainWindow", "Tipos de objetos"))
         self.actionVer.setText(_translate("MainWindow", "Ver"))
         self.actionCrear.setText(_translate("MainWindow", "Crear"))
 
-
  # *Método para cargar la vista de árbol de los objetos
+
     def populate_templates(self):
         for room in self.rooms:
             child = QtWidgets.QTreeWidgetItem(self.itemsWidget)
             child.setText(0, room.name)
             child.setData(0, QtCore.Qt.UserRole, room)
             self.itemsWidget.addTopLevelItem(child)
-            self.itemsWidget.itemDoubleClicked.connect(self.draw)
             shelvings = self.sc.get_shelvings_by_room_id(room.id)
             for shelving in shelvings:
                 self.shelvings.append(shelving)
@@ -192,8 +202,6 @@ class Ui_MainWindow(object):
                         child4 = QtWidgets.QTreeWidgetItem(child3)
                         child4.setText(3, item.name)
                         child3.addChild(child4)
-
-
 
     def new_room_window(self):
         from new_room import Ui_Dialog as NewRoomDialog
@@ -224,7 +232,6 @@ class Ui_MainWindow(object):
         v_header = self.tableWidget.verticalHeader()
         v_header.setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
 
-
     def draw(self, item):
         index = item.data(0, QtCore.Qt.UserRole)
         if isinstance(index, Room):
@@ -237,11 +244,58 @@ class Ui_MainWindow(object):
             self.draw_shelf(index.id)
             pass
 
+    def controll_buttons(self, item):
+        index = item.data(0, QtCore.Qt.UserRole)
+        if isinstance(index, Room):
+            self.actionDeleteRoom.setEnabled(True)
+            self.actionNewRoom.setEnabled(True)
+            self.actionEditRoom.setEnabled(True)
+            self.menuShelving.setEnabled(True)
+            self.actionCreateShelving.setEnabled(True)
+            self.actionEditShelving.setEnabled(False)
+            self.actionRemoveShelving.setEnabled(False)
+            self.actionAddShelf.setEnabled(False)
+            self.actionRemoveShelf.setEnabled(False)
+            self.action.setEnabled(True)
+            self.actionVer.setEnabled(True)
+            self.actionCrear.setEnabled(True)
+            pass
+        elif isinstance(index, Shelving):
+            self.actionDeleteRoom.setEnabled(False)
+            self.actionNewRoom.setEnabled(True)
+            self.actionEditRoom.setEnabled(False)
+            self.actionCreateShelving.setEnabled(True)
+            self.actionRemoveShelving.setEnabled(True)
+            self.actionAddShelf.setEnabled(True)
+            self.actionRemoveShelf.setEnabled(False)
+            self.action.setEnabled(True)
+            self.actionVer.setEnabled(True)
+            self.actionCrear.setEnabled(True)
+            pass
+        elif isinstance(index, Shelf):
+            self.actionDeleteRoom.setEnabled(False)
+            self.actionNewRoom.setEnabled(True)
+            self.actionEditRoom.setEnabled(False)
+            self.actionCreateShelving.setEnabled(True)
+            self.actionRemoveShelving.setEnabled(True)
+            self.actionAddShelf.setEnabled(True)
+            self.actionRemoveShelf.setEnabled(False)
+            self.action.setEnabled(True)
+            self.actionVer.setEnabled(True)
+            self.actionCrear.setEnabled(True)
+            # TODO: Hacer que se puedan añadir objetos y sus botones
+            pass
+
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
+    MainWindow.setWindowFlags(MainWindow.windowFlags() | QtCore.Qt.CustomizeWindowHint |
+                              QtCore.Qt.WindowMinimizeButtonHint |
+                              QtCore.Qt.WindowMaximizeButtonHint |
+                              QtCore.Qt.WindowCloseButtonHint)
     ui.populate_templates()
     MainWindow.show()
     app.exec_()

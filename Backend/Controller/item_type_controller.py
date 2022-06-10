@@ -1,10 +1,9 @@
 from shelvingManager.Backend.Database.database import DatabaseUtils as db
 
-from sqlite3 import Connection, Cursor
+from sqlite3 import Connection
 
 from shelvingManager.Models.item_type import ItemType
 
-from shelvingManager.Backend.Controller.database_controller import DatabaseController
 
 class ItemTypeController:
 

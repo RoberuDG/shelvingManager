@@ -1,11 +1,10 @@
-from calendar import c
 import sqlite3
 from sqlite3 import Connection, Cursor, Error
 import os
 from shelvingManager.Models.item import Item
 from shelvingManager.Models.item_type import ItemType
 
-from shelvingManager.Models.room import Room, Room
+from shelvingManager.Models.room import Room
 from shelvingManager.Models.shelf import Shelf
 from shelvingManager.Models.shelving import Shelving
 
@@ -50,7 +49,7 @@ class DatabaseUtils:
     def get_shelving(shelving_id: int, cur: Cursor) -> Cursor:
         return cur.execute('''SELECT * FROM shelvings WHERE id = ? ''', [shelving_id])
 
-    def get_shelve(shelve_id: int, cur: Cursor) -> Cursor:
+    def get_shelf(shelve_id: int, cur: Cursor) -> Cursor:
         return cur.execute('''SELECT * FROM shelves WHERE shelve_id = ? ''', [shelve_id])
 
     def get_item_type(item_type_id: int, cur: Cursor) -> Cursor:

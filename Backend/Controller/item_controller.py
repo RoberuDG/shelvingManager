@@ -4,7 +4,6 @@ from sqlite3 import Connection
 
 from shelvingManager.Models.item import Item
 
-from shelvingManager.Backend.Controller.database_controller import DatabaseController
 
 class ItemController:
 
