@@ -41,9 +41,9 @@ class ItemController:
         value = db.get_item_id(item_name, self.cur_trace)
         return value
 
-    def get_items_by_shelf_id(self, shelve_id: int) -> list:
+    def get_items_by_shelf_id(self, shelf_id: int) -> list:
         items = []
-        for row in db.get_items_by_shelf_id(shelve_id, self.cur_trace):
+        for row in db.get_items_by_shelf_id(shelf_id, self.cur_trace):
             if row is not None:
                 item = Item(row[0], row[1], row[2], row[3], row[4], row[5])
                 items.append(item)

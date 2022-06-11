@@ -200,7 +200,7 @@ class Ui_MainWindow(object):
                 for shelf in shelves:
                     self.shelvings.append(shelf)
                     child3 = QtWidgets.QTreeWidgetItem(child2)
-                    child3.setText(2, shelf.name)
+                    child3.setText(2, str(shelf.code))
                     child2.addChild(child3)
                     items = self.ic.get_items_by_shelf_id(
                         shelf.id)

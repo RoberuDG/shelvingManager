@@ -93,7 +93,7 @@ class DatabaseUtils:
         return cur.execute('''SELECT id, name, description, positions FROM rooms''')
 
     def get_all_shelvings_object(cur: Cursor) -> Cursor:
-        return cur.execute('''SELECT room_id, code, positions FROM shelvings''')
+        return cur.execute('''SELECT id, room_id, code, position, description FROM shelvings''')
 
     def get_all_shelves_object(cur: Cursor) -> Cursor:
         return cur.execute('''SELECT shelving_id, code, order FROM shelves''')
@@ -126,7 +126,7 @@ class DatabaseUtils:
         return cur.execute('''SELECT id, shelving_id, name, position FROM shelves WHERE shelving_id = ? ORDER BY position''', [shelving_id])
 
     def get_items_by_shelf_id(shelf_id: int, cur: Cursor) -> Cursor:
-        return cur.execute('''SELECT id, shelve_id, item_type_id, position, name, description FROM items WHERE shelve_id = ? ORDER BY position''', [shelf_id])
+        return cur.execute('''SELECT id, shelf_id, item_type_id, position, name, description FROM items WHERE shelf_id = ? ORDER BY position''', [shelf_id])
 
     # *Inserción de datos
     def insert_room(room: Room,cur: Cursor, con: Connection) -> bool:
@@ -136,13 +136,13 @@ class DatabaseUtils:
         return True if cur.lastrowid > 0 else False
 
     def insert_shelving(shelving: Shelving, cur: Cursor, con: Connection) -> bool:
-        cur.execute('''INSERT INTO shelvings (room_id, code, description, position, height,) VALUES (?, ?, ?, ?, ?)''',
-                    [shelving.room_id, shelving.code, shelving.description, shelving.position, shelving.height])
+        cur.execute('''INSERT INTO shelvings (room_id, code, description, position) VALUES (?, ?, ?, ?)''',
+                    [shelving.room_id, shelving.code, shelving.description, shelving.position])
         con.commit()
         return True if cur.lastrowid > 0 else False
 
     def insert_shelve(shelf: Shelf, cur: Cursor, con: Connection) -> bool:
-        cur.execute('''INSERT INTO shelves VALUES (?, ?, ?)''',
+        cur.execute('''INSERT INTO shelves (shelving_id, name, position) VALUES (?, ?, ?)''',
                         [shelf.shelving_id, shelf.code, shelf.position])
         con.commit()
         return True if cur.lastrowid > 0 else False

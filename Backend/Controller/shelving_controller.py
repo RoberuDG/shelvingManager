@@ -46,6 +46,12 @@ class ShelvingController:
         value = shelvings
         return value
 
+    def get_last_shelving(self) -> Shelving:
+        value = db.get_all_shelvings_object(self.cur_trace)
+        last = value.fetchall()[-1]
+        shelving = Shelving(last[1], last[2], last[3], last[4], last[0])
+        return shelving
+
     def delete_shelving(self, shelving_id: int) -> bool:
         value = db.delete_shelving(shelving_id, self.cur_trace, self.conn)
         return value

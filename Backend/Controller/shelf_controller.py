@@ -30,7 +30,6 @@ class ShelfController:
             if row is not None:
                 shelf = Shelf(row[0], row[1], row[2], row[3])
                 shelves.append(shelf)
-            shelves.append(row)
         value = shelves
         return value
 
@@ -50,7 +49,7 @@ class ShelfController:
         shelves = []
         for row in db.get_shelves_by_shelving_id(shelving_id, self.cur_trace):
             if row is not None:
-                shelf = Shelf(row[0], row[1], row[2], row[3])
+                shelf = Shelf(row[1], row[2], row[3], row[0])
                 shelves.append(shelf)
         value = shelves
         return value

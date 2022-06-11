@@ -17,6 +17,8 @@ CREATE TABLE IF NOT EXISTS shelvings (
     height INTEGER NOT NULL,
     creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (room_id) REFERENCES rooms(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS shelves (
@@ -27,6 +29,8 @@ CREATE TABLE IF NOT EXISTS shelves (
     position INTEGER NOT NULL,
     creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (shelving_id) REFERENCES shelvings(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS item_types (
@@ -43,6 +47,10 @@ CREATE TABLE IF NOT EXISTS items (
     position INTEGER NOT NULL,
     name TEXT(25) NOT NULL,
     description TEXT(255),
-    FOREIGN KEY (shelf_id) REFERENCES shelves(id),
+    FOREIGN KEY (shelf_id) REFERENCES shelves(id)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE,
     FOREIGN KEY (item_type_id) REFERENCES item_types(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 );

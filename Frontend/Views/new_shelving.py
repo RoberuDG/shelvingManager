@@ -10,6 +10,7 @@
 
 from turtle import position
 from PyQt5 import QtCore, QtGui, QtWidgets
+from shelvingManager.Models.shelf import Shelf
 from shelvingManager.Backend.Controller.shelving_controller import ShelvingController
 from shelvingManager.Backend.Controller.database_controller import DatabaseController
 from shelvingManager.Backend.Controller.shelf_controller import ShelfController
@@ -249,8 +250,12 @@ class Ui_Dialog(object):
             end = [self.spinBox.value() - 1, self.spinBox_3.value() - 1]
         if code is not None and code != '':
             self.sc.insert_shelving(room_id, code, start, end, description)
-            self.sfc.insert_shelf(room_id, code, start, end)
-
+            last_shelving = self.sc.get_last_shelving()
+            if last_shelving is not None:
+                index = 0
+                while (index <= 7):
+                    self.sfc.insert_shelf(Shelf(last_shelving.id, last_shelving.code + '00' + str(index), index))
+                    index += 1
     def deactivate_selection(self):
         self.tableWidgetShelving.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
 
