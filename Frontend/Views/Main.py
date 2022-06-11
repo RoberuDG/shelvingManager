@@ -88,9 +88,9 @@ class Ui_MainWindow(object):
         self.menuShelving = QtWidgets.QMenu(self.menuEditar)
         self.menuShelving.setEnabled(False)
         self.menuShelving.setObjectName("menuShelving")
-        self.menuShelf = QtWidgets.QMenu(self.menuEditar)
-        self.menuShelf.setEnabled(False)
-        self.menuShelf.setObjectName("menuShelf")
+        self.menuItem = QtWidgets.QMenu(self.menuEditar)
+        self.menuItem.setEnabled(False)
+        self.menuItem.setObjectName("menuItem")
         self.menuObjectTypes = QtWidgets.QMenu(self.menubar)
         self.menuObjectTypes.setObjectName("menuObjectTypes")
         MainWindow.setMenuBar(self.menubar)
@@ -114,10 +114,10 @@ class Ui_MainWindow(object):
         self.actionRemoveShelving = QtWidgets.QAction(MainWindow)
         self.actionRemoveShelving.setObjectName(
             "actionRemoveShelving")
-        self.actionAddShelf = QtWidgets.QAction(MainWindow)
-        self.actionAddShelf.setObjectName("actionAddShelf")
-        self.actionRemoveShelf = QtWidgets.QAction(MainWindow)
-        self.actionRemoveShelf.setObjectName("actionRemoveShelf")
+        self.actionAddItem = QtWidgets.QAction(MainWindow)
+        self.actionAddItem.setObjectName("actionAddItem")
+        self.actionRemoveItem = QtWidgets.QAction(MainWindow)
+        self.actionRemoveItem.setObjectName("actionRemoveItem")
         self.action = QtWidgets.QAction(MainWindow)
         self.action.setObjectName("action")
         self.actionVer = QtWidgets.QAction(MainWindow)
@@ -132,12 +132,12 @@ class Ui_MainWindow(object):
         self.menuShelving.addAction(self.actionEditShelving)
         self.menuShelving.addSeparator()
         self.menuShelving.addAction(self.actionRemoveShelving)
-        self.menuShelf.addAction(self.actionAddShelf)
-        self.menuShelf.addSeparator()
-        self.menuShelf.addAction(self.actionRemoveShelf)
+        self.menuItem.addAction(self.actionAddItem)
+        self.menuItem.addSeparator()
+        self.menuItem.addAction(self.actionRemoveItem)
         self.menuEditar.addAction(self.menuRoom.menuAction())
         self.menuEditar.addAction(self.menuShelving.menuAction())
-        self.menuEditar.addAction(self.menuShelf.menuAction())
+        self.menuEditar.addAction(self.menuItem.menuAction())
         self.menuObjectTypes.addAction(self.actionVer)
         self.menuObjectTypes.addAction(self.actionCrear)
         self.menubar.addAction(self.menuEditar.menuAction())
@@ -158,7 +158,7 @@ class Ui_MainWindow(object):
         self.menuEditar.setTitle(_translate("MainWindow", "Entidades"))
         self.menuRoom.setTitle(_translate("MainWindow", "Habitación"))
         self.menuShelving.setTitle(_translate("MainWindow", "Estantería"))
-        self.menuShelf.setTitle(_translate("MainWindow", "Balda"))
+        self.menuItem.setTitle(_translate("MainWindow", "Objeto"))
         self.menuObjectTypes.setTitle(
             _translate("MainWindow", "Tipos de objeto"))
         self.actionNewRoom.setText(_translate(
@@ -173,10 +173,10 @@ class Ui_MainWindow(object):
             _translate("MainWindow", "Editar estantería"))
         self.actionRemoveShelving.setText(
             _translate("MainWindow", "Eliminar estantería"))
-        self.actionAddShelf.setText(
-            _translate("MainWindow", "Añadir balda"))
-        self.actionRemoveShelf.setText(
-            _translate("MainWindow", "Eliminar balda"))
+        self.actionAddItem.setText(
+            _translate("MainWindow", "Añadir objeto"))
+        self.actionRemoveItem.setText(
+            _translate("MainWindow", "Eliminar objeto"))
         self.action.setText(_translate("MainWindow", "Tipos de objetos"))
         self.actionVer.setText(_translate("MainWindow", "Ver"))
         self.actionCrear.setText(_translate("MainWindow", "Crear"))
@@ -223,6 +223,7 @@ class Ui_MainWindow(object):
         #TODO: Método para crear estantería
         self.itemsWidget.clear()
         self.populate_templates()
+        self.draw_room(self.selected_room.id)
 
     def draw_room(self, room_id):
         size = self.rc.get_room_size(room_id)
@@ -246,8 +247,8 @@ class Ui_MainWindow(object):
                     self.tableWidget.item(position_occupied[0][0], i).setBackground(QtGui.QColor(255, 0, 0))
             else:
                 for i in range(position_occupied[0][0], position_occupied[1][0] + 1):
-                    self.tableWidget.setItem(i, position_occupied[0][0], QtWidgets.QTableWidgetItem(shelving.code))
-                    self.tableWidget.item(i, position_occupied[0][0]).setBackground(QtGui.QColor(0, 255, 0))
+                    self.tableWidget.setItem(i, position_occupied[0][1], QtWidgets.QTableWidgetItem(shelving.code))
+                    self.tableWidget.item(i, position_occupied[0][1]).setBackground(QtGui.QColor(0, 255, 0))
 
     def draw_shelving(self, shelving_id):
         size = self.sc.get_shelving_position(shelving_id)
@@ -280,8 +281,8 @@ class Ui_MainWindow(object):
             self.actionCreateShelving.setEnabled(True)
             self.actionEditShelving.setEnabled(False)
             self.actionRemoveShelving.setEnabled(False)
-            self.actionAddShelf.setEnabled(False)
-            self.actionRemoveShelf.setEnabled(False)
+            self.actionAddItem.setEnabled(False)
+            self.actionRemoveItem.setEnabled(False)
             self.action.setEnabled(True)
             self.actionVer.setEnabled(True)
             self.actionCrear.setEnabled(True)
@@ -293,9 +294,9 @@ class Ui_MainWindow(object):
             self.menuShelving.setEnabled(True)
             self.actionCreateShelving.setEnabled(True)
             self.actionRemoveShelving.setEnabled(True)
-            self.menuShelf.setEnabled(True)
-            self.actionAddShelf.setEnabled(True)
-            self.actionRemoveShelf.setEnabled(False)
+            self.menuItem.setEnabled(True)
+            self.actionAddItem.setEnabled(True)
+            self.actionRemoveItem.setEnabled(False)
             self.action.setEnabled(True)
             self.actionVer.setEnabled(True)
             self.actionCrear.setEnabled(True)
@@ -306,8 +307,8 @@ class Ui_MainWindow(object):
             self.actionEditRoom.setEnabled(False)
             self.actionCreateShelving.setEnabled(True)
             self.actionRemoveShelving.setEnabled(True)
-            self.actionAddShelf.setEnabled(True)
-            self.actionRemoveShelf.setEnabled(False)
+            self.actionAddItem.setEnabled(True)
+            self.actionRemoveItem.setEnabled(False)
             self.action.setEnabled(True)
             self.actionVer.setEnabled(True)
             self.actionCrear.setEnabled(True)

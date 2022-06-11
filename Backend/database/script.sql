@@ -14,7 +14,6 @@ CREATE TABLE IF NOT EXISTS shelvings (
     code TEXT(3) NOT NULL,
     description TEXT(255),
     position INTEGER NOT NULL,
-    height INTEGER NOT NULL,
     creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (room_id) REFERENCES rooms(id)
     ON DELETE CASCADE

@@ -209,23 +209,24 @@ class Ui_Dialog(object):
 
     def control_shelving_position(self):
         occupied_cells = []
+        insert_try = []
         if(self.spinBox.value() >= 1 and self.spinBox_2.value() >= 1 and self.spinBox_3.value() >= 1):
             for shelving in self.shelvings:
                 position_occupied = self.sc.get_shelving_position(shelving.id)
                 if(position_occupied[0][0] == position_occupied[1][0]):
                     for i in range(position_occupied[0][1], position_occupied[1][1] + 1):
-                        occupied_cells.append((position_occupied[0][1], i))
+                        occupied_cells.append((position_occupied[0][0], i))
                 else:
                     for i in range(position_occupied[0][0], position_occupied[1][0] + 1):
                         occupied_cells.append((i, position_occupied[0][1]))
-                insert_try = []
 
-                if self.radioButton.isChecked():
-                    for i in range(self.spinBox_2.value() - 1, self.spinBox.value()):
-                        insert_try.append((i, self.spinBox_3.value() - 1))
-                else:
-                    for i in range(self.spinBox_2.value() - 1, self.spinBox.value()):
-                        insert_try.append((self.spinBox_3.value() - 1, i))
+                if insert_try == []:
+                    if self.radioButton.isChecked():
+                        for i in range(self.spinBox_2.value() - 1, self.spinBox.value()):
+                            insert_try.append((i, self.spinBox_3.value() - 1))
+                    else:
+                        for i in range(self.spinBox_2.value() - 1, self.spinBox.value()):
+                            insert_try.append((self.spinBox_3.value() - 1, i))
 
             for i in occupied_cells:
                 for j in insert_try:
@@ -256,6 +257,7 @@ class Ui_Dialog(object):
                 while (index <= 7):
                     self.sfc.insert_shelf(Shelf(last_shelving.id, last_shelving.code + '00' + str(index), index))
                     index += 1
+
     def deactivate_selection(self):
         self.tableWidgetShelving.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
 
@@ -265,8 +267,12 @@ class Ui_Dialog(object):
         self.spinBox_3.setMinimum(1)
         self.spinBox_2.setMaximum(self.tableWidgetShelving.columnCount())
         self.spinBox.setMaximum(self.tableWidgetShelving.columnCount())
+        self.buttonBox.setEnabled(True)
         self.spinBox_2.setMinimum(1)
         self.spinBox.setMinimum(1)
+        self.spinBox.setValue(1)
+        self.spinBox_2.setValue(1)
+        self.spinBox_3.setValue(1)
 
     def radioButton_clicked(self):
         self.control_position()
@@ -276,6 +282,10 @@ class Ui_Dialog(object):
         self.spinBox.setMaximum(self.tableWidgetShelving.rowCount())
         self.spinBox_2.setMinimum(1)
         self.spinBox.setMinimum(1)
+        self.buttonBox.setEnabled(True)
+        self.spinBox.setValue(1)
+        self.spinBox_2.setValue(1)
+        self.spinBox_3.setValue(1)
 
     def control_position(self):
         self.spinBox_3.setEnabled(True)
@@ -304,8 +314,8 @@ class Ui_Dialog(object):
                     self.tableWidgetShelving.item(position_occupied[0][0], i).setBackground(QtGui.QColor(255, 0, 0))
             else:
                 for i in range(position_occupied[0][0], position_occupied[1][0] + 1):
-                    self.tableWidgetShelving.setItem(i, position_occupied[0][0], QtWidgets.QTableWidgetItem(shelving.code))
-                    self.tableWidgetShelving.item(i, position_occupied[0][0]).setBackground(QtGui.QColor(0, 255, 0))
+                    self.tableWidgetShelving.setItem(i, position_occupied[0][1], QtWidgets.QTableWidgetItem(shelving.code))
+                    self.tableWidgetShelving.item(i, position_occupied[0][1]).setBackground(QtGui.QColor(0, 255, 0))
 
     def limit_text(self):
             text = self.etDescription.toPlainText()
