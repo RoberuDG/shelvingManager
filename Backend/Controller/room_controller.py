@@ -1,4 +1,3 @@
-import string
 from shelvingManager.Backend.Database.database import DatabaseUtils as db
 
 from sqlite3 import Connection
@@ -18,7 +17,7 @@ class RoomController:
         self.conn.set_trace_callback(print)
         self.cur_trace = self.conn.cursor()
 
-    def insert_room(self, name: string, size_x: int, size_y: int, description=None) -> bool:
+    def insert_room(self, name: str, size_x: int, size_y: int, description=None) -> bool:
         positions = {
             "size_x": size_x,
             "size_y": size_y

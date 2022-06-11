@@ -55,7 +55,7 @@ class Ui_MainWindow(object):
         self.itemsWidget.setMaximumSize(QtCore.QSize(500, 16777215))
         self.itemsWidget.setObjectName("itemsWidget")
         self.itemsWidget.itemDoubleClicked.connect(self.draw)
-        self.itemsWidget.itemDoubleClicked.connect(self.controll_buttons)
+        self.itemsWidget.itemDoubleClicked.connect(self.control_buttons)
         self.horizontalLayout.addWidget(self.itemsWidget)
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
         self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
@@ -142,6 +142,7 @@ class Ui_MainWindow(object):
         self.menuObjectTypes.addAction(self.actionCrear)
         self.menubar.addAction(self.menuEditar.menuAction())
         self.menubar.addAction(self.menuObjectTypes.menuAction())
+        self.tableWidget.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -181,7 +182,6 @@ class Ui_MainWindow(object):
         self.actionCrear.setText(_translate("MainWindow", "Crear"))
 
  # *Método para cargar la vista de árbol de los objetos
-
     def populate_templates(self):
         for room in self.rooms:
             child = QtWidgets.QTreeWidgetItem(self.itemsWidget)
@@ -195,12 +195,12 @@ class Ui_MainWindow(object):
                 child2.setText(1, shelving.code)
                 child2.setData(1, QtCore.Qt.UserRole, shelving)
                 child.addChild(child2)
-                shelves = self.sfc.get_shelf_by_shelving_id(
+                shelves = self.sfc.get_shelves_by_shelving_id(
                     shelving.id)
                 for shelf in shelves:
                     self.shelvings.append(shelf)
                     child3 = QtWidgets.QTreeWidgetItem(child2)
-                    child3.setText(2, shelf.code)
+                    child3.setText(2, shelf.name)
                     child2.addChild(child3)
                     items = self.ic.get_items_by_shelf_id(
                         shelf.id)
@@ -219,7 +219,7 @@ class Ui_MainWindow(object):
 
     def new_shelving_window(self):
         from new_shelving import Ui_Dialog as NewShelvingDialog
-        NewShelvingDialog.shelving_window(self, self.tableWidget, self.selected_room.id)
+        NewShelvingDialog.shelving_window(self, self.tableWidget.rowCount(), self.tableWidget.columnCount(), self.selected_room.id)
         #TODO: Método para crear estantería
         self.itemsWidget.clear()
         self.populate_templates()
@@ -234,36 +234,45 @@ class Ui_MainWindow(object):
         h_header.setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
         v_header = self.tableWidget.verticalHeader()
         v_header.setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+        self.populate_table_room(room_id)
+
+    def populate_table_room(self, room_id):
+        shelvings = self.sc.get_shelvings_by_room_id(room_id)
+        for shelving in shelvings:
+            position_occupied = self.sc.get_shelving_position(shelving.id)
+            if position_occupied[0][0] == position_occupied[1][0]:
+                for i in range(position_occupied[0][1], position_occupied[1][1] + 1):
+                    self.tableWidget.setItem(position_occupied[0][0], i, QtWidgets.QTableWidgetItem(shelving.code))
+                    self.tableWidget.item(position_occupied[0][0], i).setBackground(QtGui.QColor(255, 0, 0))
+            else:
+                for i in range(position_occupied[0][0], position_occupied[1][0] + 1):
+                    self.tableWidget.setItem(i, position_occupied[0][0], QtWidgets.QTableWidgetItem(shelving.code))
+                    self.tableWidget.item(i, position_occupied[0][0]).setBackground(QtGui.QColor(0, 255, 0))
 
     def draw_shelving(self, shelving_id):
-        size = self.sfc.get_shelf_size(shelving_id)
-        height = size[0]
-        width = size[1]
-        self.tableWidget.setColumnCount(width)
-        self.tableWidget.setRowCount(height)
-        h_header = self.tableWidget.horizontalHeader()
-        h_header.setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
-        v_header = self.tableWidget.verticalHeader()
-        v_header.setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+        size = self.sc.get_shelving_position(shelving_id)
+        if size[0][0] == size[1][0]:
+            n_rows = size[1][0] - size[0][0]
+            self.tableWidget.setColumnCount(n_rows)
 
-    def draw(self, item):
-        index = item.data(0, QtCore.Qt.UserRole)
+    def draw(self, item, index):
+        index = item.data(index, QtCore.Qt.UserRole)
         if isinstance(index, Room):
             self.selected_room = index
             self.draw_room(index.id)
             pass
         elif isinstance(index, Shelving):
-            self.selected_shelving = index
-            self.draw_shelving(index.id)
+            # self.selected_shelving = index
+            # self.draw_shelving(index.id)
             pass
         elif isinstance(index, Shelf):
             self.selected_shelf = index
             self.draw_shelf(index.id)
             pass
 
-    def controll_buttons(self, item):
-        index = item.data(0, QtCore.Qt.UserRole)
-        if isinstance(index, Room):
+    def control_buttons(self, item, index):
+        data = item.data(index, QtCore.Qt.UserRole)
+        if isinstance(data, Room):
             self.actionDeleteRoom.setEnabled(True)
             self.actionNewRoom.setEnabled(True)
             self.actionEditRoom.setEnabled(True)
@@ -277,19 +286,21 @@ class Ui_MainWindow(object):
             self.actionVer.setEnabled(True)
             self.actionCrear.setEnabled(True)
             pass
-        elif isinstance(index, Shelving):
+        elif isinstance(data, Shelving):
             self.actionDeleteRoom.setEnabled(False)
             self.actionNewRoom.setEnabled(True)
             self.actionEditRoom.setEnabled(False)
+            self.menuShelving.setEnabled(True)
             self.actionCreateShelving.setEnabled(True)
             self.actionRemoveShelving.setEnabled(True)
+            self.menuShelf.setEnabled(True)
             self.actionAddShelf.setEnabled(True)
             self.actionRemoveShelf.setEnabled(False)
             self.action.setEnabled(True)
             self.actionVer.setEnabled(True)
             self.actionCrear.setEnabled(True)
             pass
-        elif isinstance(index, Shelf):
+        elif isinstance(data, Shelf):
             self.actionDeleteRoom.setEnabled(False)
             self.actionNewRoom.setEnabled(True)
             self.actionEditRoom.setEnabled(False)

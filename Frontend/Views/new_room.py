@@ -93,7 +93,7 @@ class Ui_Dialog(object):
         self.verticalLayout.addLayout(self.horizontalLayout_3)
         self.label_5 = QtWidgets.QLabel(self.verticalLayoutWidget)
         font = QtGui.QFont()
-        font.setPointSize(20)
+        font.setPointSize(15)
         font.setBold(True)
         font.setWeight(75)
         self.label_5.setFont(font)
@@ -144,6 +144,8 @@ class Ui_Dialog(object):
         description = self.etDescription.toPlainText()
         if name is not None and name != '' and size_x > 0 and size_y > 0:
             self.rc.insert_room(name, size_x, size_y, description)
+        else:
+            self.label_5.setText("<font color='red'>Faltan datos</font>")
 
     def room_window(self):
         Dialog = QtWidgets.QDialog()

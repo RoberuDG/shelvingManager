@@ -16,18 +16,33 @@ class ShelvingController:
         self.conn.set_trace_callback(print)
         self.cur_trace = self.conn.cursor()
 
-    def insert_shelving(self, shelving: Shelving) -> bool:
+    def insert_shelving(self, room_id: int, code: str, start: list, end: list, description= None) -> bool:
+        position = {
+            "start": start,
+            "end": end
+        }
+        json = js.dumps(position)
+        shelving = Shelving(room_id, code, json, description)
         value = db.insert_shelving(shelving, self.cur_trace, self.conn)
         return value
 
+    def get_shelving_position(self, shelving_id: int) -> list:
+        shelving = self.get_shelving(shelving_id)
+        value = js.loads(shelving.position)
+        position = [value["start"], value["end"]]
+        return position
+
     def get_shelving(self, shelving_id: int) -> Shelving:
-        value = Shelving(db.get_shelving_object(shelving_id, self.cur_trace).fetchone())
-        return value
+        value = db.get_shelving_object(shelving_id, self.cur_trace).fetchone()
+        shelving = Shelving(value[1], value[2], value[3], value[4], value[0])
+        return shelving
 
     def get_all_shelvings(self) -> list:
         shelvings = []
         for row in db.get_all_shelvings_object(self.cur_trace):
-            shelvings.append(row)
+            if row is not None:
+                shelving = Shelving(row[1], row[2], row[3], row[4], row[0])
+                shelvings.append(shelving)
         value = shelvings
         return value
 
@@ -47,7 +62,7 @@ class ShelvingController:
         shelvings = []
         for row in db.get_shelving_by_room_id(room_id, self.cur_trace):
             if row is not None:
-                shelving = Shelving(row[0], row[1], row[2], row[3])
+                shelving = Shelving(row[1], row[2], row[3], row[4], row[0])
                 shelvings.append(shelving)
         value = shelvings
         return value

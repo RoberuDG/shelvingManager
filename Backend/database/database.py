@@ -78,7 +78,7 @@ class DatabaseUtils:
         return cur.execute('''SELECT id, name, description, positions FROM rooms WHERE id = ? ''', [room_id])
 
     def get_shelving_object(shelving_id: int, cur: Cursor) -> Cursor:
-        return cur.execute('''SELECT room_id, code, positions FROM shelves WHERE id = ? ''', [shelving_id])
+        return cur.execute('''SELECT id, room_id, code, position, description FROM shelvings WHERE id = ? ''', [shelving_id])
 
     def get_shelf_object(shelve_id: int, cur: Cursor) -> Cursor:
         return cur.execute('''SELECT shelving_id, code, order FROM shelves WHERE id = ? ''', [shelve_id])
@@ -88,9 +88,6 @@ class DatabaseUtils:
 
     def get_item_object(item_id: int, cur: Cursor) -> Cursor:
         return cur.execute('''SELECT shelve_id, item_type_id, position, name, description FROM items WHERE item_id = ? ''', [item_id])
-
-    def get_shelving_object(shelving_id: int, cur: Cursor) -> Cursor:
-        return cur.execute('''SELECT room_id, code, positions FROM shelves WHERE shelving_id = ? ''', [shelving_id])
 
     def get_all_rooms_object(cur: Cursor) -> Cursor:
         return cur.execute('''SELECT id, name, description, positions FROM rooms''')
@@ -123,10 +120,10 @@ class DatabaseUtils:
         return cur.execute('''SELECT item_id FROM items WHERE name = ? ''', [item_name])
 
     def get_shelving_by_room_id(room_id: int, cur: Cursor) -> Cursor:
-        return cur.execute('''SELECT id, room_id, code, positions FROM shelvings WHERE room_id = ?''', [room_id])
+        return cur.execute('''SELECT id, room_id, code, position, description FROM shelvings WHERE room_id = ?''', [room_id])
 
     def get_shelves_by_shelving_id(shelving_id: int, cur: Cursor) -> Cursor:
-        return cur.execute('''SELECT id, shelving_id, code, position FROM shelves WHERE shelving_id = ? ORDER BY position''', [shelving_id])
+        return cur.execute('''SELECT id, shelving_id, name, position FROM shelves WHERE shelving_id = ? ORDER BY position''', [shelving_id])
 
     def get_items_by_shelf_id(shelf_id: int, cur: Cursor) -> Cursor:
         return cur.execute('''SELECT id, shelve_id, item_type_id, position, name, description FROM items WHERE shelve_id = ? ORDER BY position''', [shelf_id])
@@ -139,8 +136,8 @@ class DatabaseUtils:
         return True if cur.lastrowid > 0 else False
 
     def insert_shelving(shelving: Shelving, cur: Cursor, con: Connection) -> bool:
-        cur.execute('''INSERT INTO shelvings VALUES (?, ?, ?)''',
-                    [shelving.room_id, shelving.code, shelving.positions])
+        cur.execute('''INSERT INTO shelvings (room_id, code, description, position, height,) VALUES (?, ?, ?, ?, ?)''',
+                    [shelving.room_id, shelving.code, shelving.description, shelving.position, shelving.height])
         con.commit()
         return True if cur.lastrowid > 0 else False
 

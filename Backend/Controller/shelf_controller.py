@@ -37,7 +37,7 @@ class ShelfController:
                 shelves.append(shelf)
             shelves.append(row)
         value = shelves
-        return shelves
+        return value
 
     def delete_shelf(self, shelf_id: int) -> bool:
         value = db.delete_shelve(shelf_id, self.cur_trace, self.conn)
@@ -51,7 +51,7 @@ class ShelfController:
         value = db.get_shelve_id(shelf_name, self.cur_trace)
         return value
 
-    def get_shelf_by_shelving_id(self, shelving_id: int) -> list:
+    def get_shelves_by_shelving_id(self, shelving_id: int) -> list:
         shelves = []
         for row in db.get_shelves_by_shelving_id(shelving_id, self.cur_trace):
             if row is not None:
