@@ -12,11 +12,13 @@ from turtle import position
 from PyQt5 import QtCore, QtGui, QtWidgets
 from shelvingManager.Backend.Controller.shelving_controller import ShelvingController
 from shelvingManager.Backend.Controller.database_controller import DatabaseController
+from shelvingManager.Backend.Controller.shelf_controller import ShelfController
 
 class Ui_Dialog(object):
     MAX_DESCRIPTION_CHARACTERS = 255
     dbc = DatabaseController()
     sc = ShelvingController(dbc.conn)
+    sfc = ShelfController(dbc.conn)
 
     shelvings = None
     room_id = None
@@ -235,7 +237,6 @@ class Ui_Dialog(object):
                         self.buttonBox.setEnabled(True)
 
 
-
     def insert_shelving(self):
         room_id = self.room_id
         code = self.textName.text()
@@ -248,6 +249,7 @@ class Ui_Dialog(object):
             end = [self.spinBox.value() - 1, self.spinBox_3.value() - 1]
         if code is not None and code != '':
             self.sc.insert_shelving(room_id, code, start, end, description)
+            self.sfc.insert_shelf(room_id, code, start, end)
 
     def deactivate_selection(self):
         self.tableWidgetShelving.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
@@ -309,15 +311,6 @@ class Ui_Dialog(object):
                 elif len(text) == self.MAX_DESCRIPTION_CHARACTERS - 1:
                     self.label_5.setText("")
 
-    def create_shelf(self):
-        name = self.textName.text()
-        size_y = self.spinMeters1.value()
-        description = self.etDescription.toPlainText()
-        if name is not None and name != '' and size_y > 0:
-            self.name = name
-            self.size_y = size_y
-            self.description = description
-        return self.name, self.size_y, self.description
 
     def shelving_window(self, row_count, column_count, room_id):
         Dialog = QtWidgets.QDialog()

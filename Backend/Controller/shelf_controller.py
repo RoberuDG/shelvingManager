@@ -22,12 +22,7 @@ class ShelfController:
 
     def get_shelf(self, shelf_id: int) -> Shelf:
         value = Shelf(db.get_shelve_object(shelf_id, self.cur_trace).fetchone())
-
-    def get_shelve_size(self, shelf_id: int) -> list:
-        shelf = self.get_shelf(shelf_id)
-        value = js.loads(shelf.positions)
-        size = [value["size_x"], value["size_y"]]
-        return size
+        return value
 
     def get_all_shelves(self) -> list:
         shelves = []
