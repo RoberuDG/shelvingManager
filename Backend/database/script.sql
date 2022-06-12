@@ -36,14 +36,14 @@ CREATE TABLE IF NOT EXISTS item_types (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT(20) NOT NULL,
     description TEXT(255),
-    positions INTEGER NOT NULL
+    size INTEGER NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS items (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     shelf_id INTEGER,
     item_type_id INTEGER NOT NULL,
-    position INTEGER NOT NULL,
+    position TEXT NOT NULL,
     name TEXT(25) NOT NULL,
     description TEXT(255),
     FOREIGN KEY (shelf_id) REFERENCES shelves(id)

@@ -83,11 +83,11 @@ class DatabaseUtils:
     def get_shelf_object(shelve_id: int, cur: Cursor) -> Cursor:
         return cur.execute('''SELECT shelving_id, code, order FROM shelves WHERE id = ? ''', [shelve_id])
 
-    def get_item_type_object(item_type_id: int, cur: Cursor) -> Cursor:
-        return cur.execute('''SELECT name, description, positions FROM item_types WHERE item_type_type_id = ? ''', [item_type_id])
+    def get_item_type_object(item_type_name: str, cur: Cursor) -> Cursor:
+        return cur.execute('''SELECT id, name, description, size FROM item_types WHERE name = ? ''', [item_type_name])
 
     def get_item_object(item_id: int, cur: Cursor) -> Cursor:
-        return cur.execute('''SELECT shelve_id, item_type_id, position, name, description FROM items WHERE item_id = ? ''', [item_id])
+        return cur.execute('''SELECT id, shelf_id, item_type_id, position, name, description FROM items WHERE id = ? ''', [item_id])
 
     def get_all_rooms_object(cur: Cursor) -> Cursor:
         return cur.execute('''SELECT id, name, description, positions FROM rooms''')
@@ -99,10 +99,10 @@ class DatabaseUtils:
         return cur.execute('''SELECT shelving_id, code, order FROM shelves''')
 
     def get_all_item_types_object(cur: Cursor) -> Cursor:
-        return cur.execute('''SELECT name, description, positions FROM item_types''')
+        return cur.execute('''SELECT name, description, size, id FROM item_types''')
 
     def get_all_items_object(cur: Cursor) -> Cursor:
-        return cur.execute('''SELECT shelve_id, item_type_id, position, name, description FROM items''')
+        return cur.execute('''SELECT id, shelve_id, item_type_id, position, name, description FROM items''')
 
     def get_room_id(room_name: str, cur: Cursor) -> Cursor:
         return cur.execute('''SELECT room_id FROM rooms WHERE name = ? ''', [room_name])
@@ -126,7 +126,10 @@ class DatabaseUtils:
         return cur.execute('''SELECT id, shelving_id, name, position FROM shelves WHERE shelving_id = ? ORDER BY position''', [shelving_id])
 
     def get_items_by_shelf_id(shelf_id: int, cur: Cursor) -> Cursor:
-        return cur.execute('''SELECT id, shelf_id, item_type_id, position, name, description FROM items WHERE shelf_id = ? ORDER BY position''', [shelf_id])
+        return cur.execute('''SELECT id, shelf_id, item_type_id, name, position, description FROM items WHERE shelf_id = ? ORDER BY position''', [shelf_id])
+
+    def get_shelf_by_shelving_id_and_shelf_pos(shelving_id: int, shelf_pos: int, cur:Cursor) -> Cursor:
+        return cur.execute('''SELECT id, shelving_id, name, position FROM shelves WHERE shelving_id = ? AND position = ?''', [shelving_id, shelf_pos])
 
     # *Inserción de datos
     def insert_room(room: Room,cur: Cursor, con: Connection) -> bool:
@@ -148,14 +151,14 @@ class DatabaseUtils:
         return True if cur.lastrowid > 0 else False
 
     def insert_item_type(item_type: ItemType, cur: Cursor, con: Connection) -> bool:
-        cur.execute('''INSERT INTO item_type VALUES (?, ?, ?)''',
-                    [item_type.name, item_type.description, item_type.positions])
+        cur.execute('''INSERT INTO item_types (name, description, size) VALUES (?, ?, ?)''',
+                    [item_type.name, item_type.description, item_type.size])
         con.commit()
         return True if cur.lastrowid > 0 else False
 
     def insert_item(item: Item, cur: Cursor, con: Connection) -> bool:
-        cur.execute('''INSERT INTO item VALUES (?, ?, ?, ?, ?)''',
-                    [item.shelve_id, item.item_type_id, item.position, item.name, item.description])
+        cur.execute('''INSERT INTO items (shelf_id, item_type_id, position, name, description) VALUES (?, ?, ?, ?, ?)''',
+                    [item.shelf_id, item.item_type_id, item.position, item.name, item.description])
         con.commit()
         return True if cur.lastrowid > 0 else False
 
@@ -179,8 +182,8 @@ class DatabaseUtils:
         return True if cur.lastrowid > 0 else False
 
     def update_item_type(item_type: ItemType, item_type_id: int, cur: Cursor) -> bool:
-        cur.execute('''UPDATE item_type SET name= ?, description= ?, positions= ? WHERE item_type_id= ?''',
-                    [item_type.name, item_type.description, item_type.positions, item_type_id])
+        cur.execute('''UPDATE item_types SET name= ?, description= ?, size= ? WHERE item_type_id= ?''',
+                    [item_type.name, item_type.description, item_type.size, item_type_id])
         return True if cur.lastrowid > 0 else False
 
     def update_item(item: Item, item_id: int, cur: Cursor, con: Connection) -> bool:
@@ -214,6 +217,6 @@ class DatabaseUtils:
 
     def delete_item_type(item_type_id: int, cur: Cursor, con: Connection) -> bool:
         cur.execute(
-            '''DELETE FROM item_type WHERE id = ?''', [item_type_id])
+            '''DELETE FROM item_types WHERE id = ?''', [item_type_id])
         con.commit()
         return True if cur.lastrowid > 0 else False

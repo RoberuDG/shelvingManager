@@ -1,8 +1,8 @@
 
 class Item:
-    def __init__(self, id, shelve_id, item_type_id, position, name, description=None):
+    def __init__(self, shelf_id, item_type_id, name, position, description=None, id = None):
         self.id = id
-        self.shelve_id = shelve_id
+        self.shelf_id = shelf_id
         self.item_type_id = item_type_id
         self.position = position
         self.name = name

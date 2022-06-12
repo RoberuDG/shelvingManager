@@ -19,14 +19,15 @@ class ItemTypeController:
         value = db.insert_item_type(item_type, self.cur_trace, self.conn)
         return value
 
-    def get_item_type(self, item_type_id: int) -> ItemType:
-        value = ItemType(db.get_item_type_object(item_type_id, self.cur_trace).fetchone())
-        return value
+    def get_item_type(self, item_type_name: str) -> ItemType:
+        value = db.get_item_type_object(item_type_name, self.cur_trace).fetchone()
+        item_type = ItemType(value[1], value[2], value[3], value[0])
+        return item_type
 
     def get_all_item_types(self) -> list:
         item_types = []
         for row in db.get_all_item_types_object(self.cur_trace):
-            item_types.append(row)
+            item_types.append(ItemType(row[0], row[1], row[2], row[3]))
         value = item_types
         return value
 

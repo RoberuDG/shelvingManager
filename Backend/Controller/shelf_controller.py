@@ -53,3 +53,8 @@ class ShelfController:
                 shelves.append(shelf)
         value = shelves
         return value
+
+    def get_shelf_by_shelving_id_and_shelf_pos(self, shelving_id: int, shelf_pos: int) -> Shelf:
+        value = db.get_shelf_by_shelving_id_and_shelf_pos(shelving_id, shelf_pos, self.cur_trace).fetchone()
+        shelf = Shelf(value[1], value[2], value[3], value[0])
+        return shelf

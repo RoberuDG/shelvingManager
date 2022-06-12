@@ -15,6 +15,7 @@ from shelvingManager.Backend.Controller.shelving_controller import ShelvingContr
 from shelvingManager.Backend.Controller.database_controller import DatabaseController
 from shelvingManager.Backend.Controller.shelf_controller import ShelfController
 
+
 class Ui_Dialog(object):
     MAX_DESCRIPTION_CHARACTERS = 255
     dbc = DatabaseController()
@@ -24,7 +25,6 @@ class Ui_Dialog(object):
     shelvings = None
     room_id = None
 
-
     def setupUi(self, Dialog, row_count, column_count, room_id):
         self.room_id = room_id
         self.shelvings = self.sc.get_shelvings_by_room_id(room_id)
@@ -33,24 +33,31 @@ class Ui_Dialog(object):
         Dialog.setInputMethodHints(QtCore.Qt.ImhFormattedNumbersOnly)
         Dialog.setFixedSize(1284, 590)
         self.horizontalLayoutWidget = QtWidgets.QWidget(Dialog)
-        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(40, 10, 1201, 541))
+        self.horizontalLayoutWidget.setGeometry(
+            QtCore.QRect(40, 10, 1201, 541))
         self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
-        self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
-        self.horizontalLayout_4.setSizeConstraint(QtWidgets.QLayout.SetMaximumSize)
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout(
+            self.horizontalLayoutWidget)
+        self.horizontalLayout_4.setSizeConstraint(
+            QtWidgets.QLayout.SetMaximumSize)
         self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_2.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
+        self.verticalLayout_2.setSizeConstraint(
+            QtWidgets.QLayout.SetDefaultConstraint)
         self.verticalLayout_2.setSpacing(10)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
-        self.horizontalLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
+        self.horizontalLayout.setSizeConstraint(
+            QtWidgets.QLayout.SetDefaultConstraint)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.label = QtWidgets.QLabel(self.horizontalLayoutWidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.label.sizePolicy().hasHeightForWidth())
         self.label.setSizePolicy(sizePolicy)
         self.label.setMinimumSize(QtCore.QSize(50, 0))
         self.label.setMaximumSize(QtCore.QSize(50, 16777215))
@@ -59,13 +66,16 @@ class Ui_Dialog(object):
         self.label.setFont(font)
         self.label.setObjectName("label")
         self.horizontalLayout.addWidget(self.label)
-        spacerItem = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
         self.textName = QtWidgets.QLineEdit(self.horizontalLayoutWidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.textName.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.textName.sizePolicy().hasHeightForWidth())
         self.textName.setSizePolicy(sizePolicy)
         self.textName.setMaximumSize(QtCore.QSize(150, 16777215))
         self.textName.setInputMethodHints(QtCore.Qt.ImhNone)
@@ -73,7 +83,8 @@ class Ui_Dialog(object):
         self.textName.setCursorPosition(0)
         self.textName.setObjectName("textName")
         self.horizontalLayout.addWidget(self.textName)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem1)
         self.verticalLayout_2.addLayout(self.horizontalLayout)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
@@ -84,7 +95,8 @@ class Ui_Dialog(object):
         self.label_4.setFont(font)
         self.label_4.setObjectName("label_4")
         self.horizontalLayout_3.addWidget(self.label_4)
-        self.etDescription = QtWidgets.QPlainTextEdit(self.horizontalLayoutWidget)
+        self.etDescription = QtWidgets.QPlainTextEdit(
+            self.horizontalLayoutWidget)
         self.etDescription.setMaximumSize(QtCore.QSize(16777215, 100))
         self.etDescription.setObjectName("etDescription")
         self.etDescription.textChanged.connect(self.limit_text)
@@ -114,7 +126,8 @@ class Ui_Dialog(object):
         self.verticalLayout_2.addWidget(self.label_3)
         self.horizontalLayout_10 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_10.setObjectName("horizontalLayout_10")
-        self.radioButton_2 = QtWidgets.QRadioButton(self.horizontalLayoutWidget)
+        self.radioButton_2 = QtWidgets.QRadioButton(
+            self.horizontalLayoutWidget)
         self.radioButton_2.setObjectName("radioButton_2")
         self.radioButton_2.toggled.connect(self.radioButton_2_clicked)
         self.horizontalLayout_10.addWidget(self.radioButton_2)
@@ -128,7 +141,8 @@ class Ui_Dialog(object):
         self.label_9 = QtWidgets.QLabel(self.horizontalLayoutWidget)
         self.label_9.setObjectName("label_9")
         self.label_9.setMaximumSize(QtCore.QSize(200, 16777215))
-        self.label_9.setSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
+        self.label_9.setSizePolicy(
+            QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
         self.horizontalLayout_12.addWidget(self.label_9)
         self.spinBox_3 = QtWidgets.QSpinBox(self.horizontalLayoutWidget)
         self.spinBox_3.setObjectName("spinBox_3")
@@ -149,14 +163,17 @@ class Ui_Dialog(object):
         self.spinBox.setObjectName("spinBox")
         self.horizontalLayout_9.addWidget(self.spinBox)
         self.verticalLayout_2.addLayout(self.horizontalLayout_9)
-        self.buttonBox = QtWidgets.QDialogButtonBox(self.horizontalLayoutWidget)
+        self.buttonBox = QtWidgets.QDialogButtonBox(
+            self.horizontalLayoutWidget)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Save)
+        self.buttonBox.setStandardButtons(
+            QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Save)
         self.buttonBox.setCenterButtons(True)
         self.buttonBox.setObjectName("buttonBox")
         self.verticalLayout_2.addWidget(self.buttonBox)
         self.horizontalLayout_4.addLayout(self.verticalLayout_2)
-        self.tableWidgetShelving = QtWidgets.QTableWidget(self.horizontalLayoutWidget)
+        self.tableWidgetShelving = QtWidgets.QTableWidget(
+            self.horizontalLayoutWidget)
         self.tableWidgetShelving.setObjectName("tableWidget")
         self.tableWidgetShelving.setColumnCount(column_count)
         self.tableWidgetShelving.setRowCount(row_count)
@@ -166,7 +183,8 @@ class Ui_Dialog(object):
         self.label_9.setEnabled(False)
         self.label_7.setEnabled(False)
         self.label_8.setEnabled(False)
-        self.tableWidgetShelving.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.tableWidgetShelving.setEditTriggers(
+            QtWidgets.QAbstractItemView.NoEditTriggers)
         h_header = self.tableWidgetShelving.horizontalHeader()
         h_header.setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
         v_header = self.tableWidgetShelving.verticalHeader()
@@ -197,9 +215,11 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Nueva estantería"))
         self.label.setText(_translate("Dialog", "Código:"))
-        self.textName.setPlaceholderText(_translate("Dialog", "Max. 3 caracteres"))
+        self.textName.setPlaceholderText(
+            _translate("Dialog", "Max. 3 caracteres"))
         self.label_4.setText(_translate("Dialog", "Descripción:"))
-        self.etDescription.setPlaceholderText(_translate("Dialog", "Max. 255 caracteres"))
+        self.etDescription.setPlaceholderText(
+            _translate("Dialog", "Max. 255 caracteres"))
         self.label_3.setText(_translate("Dialog", "Posición"))
         self.radioButton_2.setText(_translate("Dialog", "Horizontal"))
         self.radioButton.setText(_translate("Dialog", "Vertical"))
@@ -231,13 +251,13 @@ class Ui_Dialog(object):
             for i in occupied_cells:
                 for j in insert_try:
                     if(j == i):
-                        self.label_5.setText("<font color='red'>Ya hay una o más estanterías en esta posición.</font>")
+                        self.label_5.setText(
+                            "<font color='red'>Ya hay uno o más objetos en esta posición.</font>")
                         self.buttonBox.setEnabled(False)
                         return
                     else:
                         self.label_5.setText("")
                         self.buttonBox.setEnabled(True)
-
 
     def insert_shelving(self):
         room_id = self.room_id
@@ -255,11 +275,13 @@ class Ui_Dialog(object):
             if last_shelving is not None:
                 index = 0
                 while (index <= 7):
-                    self.sfc.insert_shelf(Shelf(last_shelving.id, last_shelving.code + '00' + str(index), index))
+                    self.sfc.insert_shelf(
+                        Shelf(last_shelving.id, last_shelving.code + '00' + str(index), index))
                     index += 1
 
     def deactivate_selection(self):
-        self.tableWidgetShelving.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
+        self.tableWidgetShelving.setSelectionMode(
+            QtWidgets.QAbstractItemView.NoSelection)
 
     def radioButton_2_clicked(self):
         self.control_position()
@@ -300,9 +322,11 @@ class Ui_Dialog(object):
         if self.spinBox_2.value() >= self.spinBox.value():
             self.spinBox.setValue(self.spinBox_2.value())
         if self.radioButton_2.isChecked():
-            self.tableWidgetShelving.setRangeSelected(QtWidgets.QTableWidgetSelectionRange(self.spinBox_3.value() - 1, self.spinBox_2.value() - 1, self.spinBox_3.value() - 1, self.spinBox.value() - 1), True)
+            self.tableWidgetShelving.setRangeSelected(QtWidgets.QTableWidgetSelectionRange(self.spinBox_3.value(
+            ) - 1, self.spinBox_2.value() - 1, self.spinBox_3.value() - 1, self.spinBox.value() - 1), True)
         elif self.radioButton.isChecked():
-            self.tableWidgetShelving.setRangeSelected(QtWidgets.QTableWidgetSelectionRange(self.spinBox_2.value() - 1, self.spinBox_3.value() - 1, self.spinBox.value() - 1, self.spinBox_3.value() - 1), True)
+            self.tableWidgetShelving.setRangeSelected(QtWidgets.QTableWidgetSelectionRange(self.spinBox_2.value(
+            ) - 1, self.spinBox_3.value() - 1, self.spinBox.value() - 1, self.spinBox_3.value() - 1), True)
         self.populate_table()
 
     def populate_table(self):
@@ -310,22 +334,26 @@ class Ui_Dialog(object):
             position_occupied = self.sc.get_shelving_position(shelving.id)
             if position_occupied[0][0] == position_occupied[1][0]:
                 for i in range(position_occupied[0][1], position_occupied[1][1] + 1):
-                    self.tableWidgetShelving.setItem(position_occupied[0][0], i, QtWidgets.QTableWidgetItem(shelving.code))
-                    self.tableWidgetShelving.item(position_occupied[0][0], i).setBackground(QtGui.QColor(255, 0, 0))
+                    self.tableWidgetShelving.setItem(
+                        position_occupied[0][0], i, QtWidgets.QTableWidgetItem(shelving.code))
+                    self.tableWidgetShelving.item(
+                        position_occupied[0][0], i).setBackground(QtGui.QColor(255, 0, 0))
             else:
                 for i in range(position_occupied[0][0], position_occupied[1][0] + 1):
-                    self.tableWidgetShelving.setItem(i, position_occupied[0][1], QtWidgets.QTableWidgetItem(shelving.code))
-                    self.tableWidgetShelving.item(i, position_occupied[0][1]).setBackground(QtGui.QColor(0, 255, 0))
+                    self.tableWidgetShelving.setItem(
+                        i, position_occupied[0][1], QtWidgets.QTableWidgetItem(shelving.code))
+                    self.tableWidgetShelving.item(
+                        i, position_occupied[0][1]).setBackground(QtGui.QColor(0, 255, 0))
 
     def limit_text(self):
-            text = self.etDescription.toPlainText()
-            if text is not None:
-                if len(text) > self.MAX_DESCRIPTION_CHARACTERS:
-                    self.label_5.setText("<font color='red'>Max. 255 caracteres</font>")
-                    self.etDescription.setPlainText(text[:255])
-                elif len(text) == self.MAX_DESCRIPTION_CHARACTERS - 1:
-                    self.label_5.setText("")
-
+        text = self.etDescription.toPlainText()
+        if text is not None:
+            if len(text) > self.MAX_DESCRIPTION_CHARACTERS:
+                self.label_5.setText(
+                    "<font color='red'>Max. 255 caracteres</font>")
+                self.etDescription.setPlainText(text[:255])
+            elif len(text) == self.MAX_DESCRIPTION_CHARACTERS - 1:
+                self.label_5.setText("")
 
     def shelving_window(self, row_count, column_count, room_id):
         Dialog = QtWidgets.QDialog()
