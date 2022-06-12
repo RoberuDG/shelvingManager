@@ -5,7 +5,6 @@ CREATE TABLE IF NOT EXISTS rooms (
     name TEXT(20) NOT NULL,
     description TEXT(255),
     positions TEXT NOT NULL,
-    creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS shelvings (
@@ -14,7 +13,6 @@ CREATE TABLE IF NOT EXISTS shelvings (
     code TEXT(3) NOT NULL,
     description TEXT(255),
     position INTEGER NOT NULL,
-    creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (room_id) REFERENCES rooms(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
@@ -26,7 +24,6 @@ CREATE TABLE IF NOT EXISTS shelves (
     name TEXT(6) NOT NULL,
     description TEXT(255),
     position INTEGER NOT NULL,
-    creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (shelving_id) REFERENCES shelvings(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
