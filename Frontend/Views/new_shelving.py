@@ -95,6 +95,16 @@ class Ui_Dialog(object):
         self.label_4.setFont(font)
         self.label_4.setObjectName("label_4")
         self.horizontalLayout_3.addWidget(self.label_4)
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.label_2 = QtWidgets.QLabel(self.horizontalLayoutWidget)
+        self.label_2.setObjectName("label_2")
+        self.horizontalLayout_2.addWidget(self.label_2)
+        self.label_2.setFont(font)
+        self.spinBox_4 = QtWidgets.QSpinBox(self.horizontalLayoutWidget)
+        self.spinBox_4.setObjectName("spinBox_4")
+        self.horizontalLayout_2.addWidget(self.spinBox_4)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_2)
         self.etDescription = QtWidgets.QPlainTextEdit(
             self.horizontalLayoutWidget)
         self.etDescription.setMaximumSize(QtCore.QSize(16777215, 100))
@@ -177,6 +187,7 @@ class Ui_Dialog(object):
         self.tableWidgetShelving.setObjectName("tableWidget")
         self.tableWidgetShelving.setColumnCount(column_count)
         self.tableWidgetShelving.setRowCount(row_count)
+        self.spinBox_4.setMinimum(1)
         self.spinBox_3.setEnabled(False)
         self.spinBox_2.setEnabled(False)
         self.spinBox.setEnabled(False)
@@ -225,6 +236,7 @@ class Ui_Dialog(object):
         self.radioButton.setText(_translate("Dialog", "Vertical"))
         self.label_9.setText(_translate("Dialog", "Fila / Columna"))
         self.label_7.setText(_translate("Dialog", "Inicio"))
+        self.label_2.setText(_translate("Dialog", "Número de baldas:"))
         self.label_8.setText(_translate("Dialog", "Fin"))
 
     def control_shelving_position(self):
@@ -252,12 +264,13 @@ class Ui_Dialog(object):
                 for j in insert_try:
                     if(j == i):
                         self.label_5.setText(
-                            "<font color='red'>Ya hay uno o más objetos en esta posición.</font>")
+                            "<font color='red'>Ya hay una o más estanterías en esta posición.</font>")
                         self.buttonBox.setEnabled(False)
                         return
                     else:
                         self.label_5.setText("")
-                        self.buttonBox.setEnabled(True)
+                        if self.textName.text() != "":
+                            self.buttonBox.setEnabled(True)
 
     def insert_shelving(self):
         room_id = self.room_id
@@ -274,7 +287,7 @@ class Ui_Dialog(object):
             last_shelving = self.sc.get_last_shelving()
             if last_shelving is not None:
                 index = 0
-                while (index <= 7):
+                while (index <= self.spinBox_4.value()):
                     self.sfc.insert_shelf(
                         Shelf(last_shelving.id, last_shelving.code + '00' + str(index), index))
                     index += 1

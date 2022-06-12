@@ -194,28 +194,33 @@ class DatabaseUtils:
 
     # *Borrado de datos
     def delete_room(room_id: int, cur: Cursor, con: Connection) -> bool:
-        cur.execute('''DELETE FROM room WHERE id= ?''', [room_id])
+        con.execute("PRAGMA foreign_keys = ON")
+        cur.execute('''DELETE FROM rooms WHERE id= ?''', [room_id])
         con.commit()
         return True if cur.lastrowid > 0 else False
 
     def delete_shelving(shelving_id: int, cur: Cursor, con: Connection) -> bool:
+        con.execute("PRAGMA foreign_keys = ON")
         cur.execute(
             '''DELETE FROM shelving WHERE id = ?''', [shelving_id])
         con.commit()
         return True if cur.lastrowid > 0 else False
 
     def delete_shelve(shelve_id: int, cur: Cursor, con: Connection) -> bool:
+        con.execute("PRAGMA foreign_keys = ON")
         cur.execute(
             '''DELETE FROM shelf WHERE id = ?''', [shelve_id])
         con.commit()
         return True if cur.lastrowid > 0 else False
 
     def delete_item(item_id: int, cur: Cursor, con: Connection) -> bool:
+        con.execute("PRAGMA foreign_keys = ON")
         cur.execute('''DELETE FROM item WHERE id = ?''', [item_id])
         con.commit()
         return True if cur.lastrowid > 0 else False
 
     def delete_item_type(item_type_id: int, cur: Cursor, con: Connection) -> bool:
+        con.execute("PRAGMA foreign_keys = ON")
         cur.execute(
             '''DELETE FROM item_types WHERE id = ?''', [item_type_id])
         con.commit()

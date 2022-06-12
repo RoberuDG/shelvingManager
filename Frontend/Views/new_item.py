@@ -299,7 +299,7 @@ class Ui_Dialog(object):
                 for j in insert_try:
                     if(j == i):
                         self.label_5.setText(
-                            "<font color='red'>Ya hay una o más estanterías en esta posición.</font>")
+                            "<font color='red'>Ya hay uno o más objetos en esta posición.</font>")
                         self.buttonBox.setEnabled(False)
                         return
                     else:
