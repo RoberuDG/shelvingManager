@@ -234,6 +234,8 @@ class Ui_Dialog(object):
         self.spinBox_2.setMaximum(column_count)
         self.spinBox_3.setMaximum(row_count)
         self.comboBox.currentTextChanged.connect(self.draw_table)
+        self.comboBox.currentTextChanged.connect(self.control_spinbox_value)
+        self.comboBox.currentTextChanged.connect(self.control_item_position)
         self.load_item_types()
         self.populate_table()
 
@@ -264,7 +266,7 @@ class Ui_Dialog(object):
     def insert_item(self):
         name = self.textName_2.text()
         description = self.etDescription.toPlainText()
-        shelf_position = self.spinBox_3.value() - 1
+        shelf_position = self.spinBox_3.value()
         item_type = self.it.get_item_type(self.comboBox.currentText())
         length = int((item_type.size - 10) / 10)
         shelf_id = self.sfc.get_shelf_by_shelving_id_and_shelf_pos(self.shelving_id, shelf_position).id
@@ -279,7 +281,7 @@ class Ui_Dialog(object):
         if(self.comboBox.currentText() != ""):
             item_type = self.it.get_item_type(self.comboBox.currentText())
             length = int((item_type.size - 10) / 10)
-            height = len(self.shelves) - 1
+            height = len(self.shelves)
             end_position = self.spinBox_2.value() - 1 + length
             for shelf in self.shelves:
                 for item in self.ic.get_items_by_shelf_id(shelf.id):
@@ -290,10 +292,10 @@ class Ui_Dialog(object):
 
                     if insert_try == []:
                         for i in range(self.spinBox_2.value() - 1, end_position + 1):
-                            insert_try.append((height - self.spinBox_3.value() + 1, i))
+                            insert_try.append((height - self.spinBox_3.value(), i))
                     else:
                         for i in range(self.spinBox_2.value() - 1, end_position + 1):
-                            insert_try.append((height - self.spinBox_3.value() + 1, i))
+                            insert_try.append((height - self.spinBox_3.value(), i))
 
             for i in occupied_cells:
                 for j in insert_try:
@@ -320,10 +322,24 @@ class Ui_Dialog(object):
         self.tableWidget.setSelectionMode(
             QtWidgets.QAbstractItemView.NoSelection)
 
+    def control_spinbox_value(self):
+        if self.comboBox.currentText() != "":
+            self.spinBox_2.setEnabled(True)
+            self.spinBox_3.setEnabled(True)
+            if self.comboBox.currentText() != "" and self.comboBox.currentText() is not None:
+                item_type = self.it.get_item_type(self.comboBox.currentText())
+                max = self.tableWidget.columnCount() - (item_type.size - 10) / 10
+                self.spinBox_2.setMaximum(max)
+            else:
+                pass
+        else:
+            self.spinBox_2.setEnabled(False)
+            self.spinBox_3.setEnabled(False)
+
     def populate_table(self):
         positions = []
         shelves = self.sfc.get_shelves_by_shelving_id(self.shelving_id)
-        height = len(shelves) - 1
+        height = len(shelves)
         shelves = self.sfc.get_shelves_by_shelving_id(self.shelving_id)
         for shelf in shelves:
             items = self.ic.get_items_by_shelf_id(shelf.id)
@@ -346,10 +362,10 @@ class Ui_Dialog(object):
                             height - shelf.position, i).setBackground(color)
 
     def control_buttons(self):
-        if self.textName_2.text() == "" or self.comboBox.currentText() == "":
-            self.buttonBox.setEnabled(False)
-        else:
+        if self.textName_2.text() != "" and self.comboBox.currentText() != "":
             self.buttonBox.setEnabled(True)
+        else:
+            self.buttonBox.setEnabled(False)
 
     def limit_text(self):
         text = self.etDescription.toPlainText()

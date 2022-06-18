@@ -212,21 +212,43 @@ class Ui_MainWindow(object):
         if self.selected_index == 0:
             self.rc.delete_room(self.selected_item.data(0, QtCore.Qt.UserRole).id)
             self.rooms.remove(self.selected_item.data(0, QtCore.Qt.UserRole))
-            self.populate_templates()
+            self.itemsWidget.clearSelection()
+            self.menuItem.setEnabled(False)
+            self.menuShelving.setEnabled(False)
+            self.actionDeleteRoom.setEnabled(False)
+            self.actionRemoveItem.setEnabled(False)
+            self.actionRemoveShelving.setEnabled(False)
         elif self.selected_index == 1:
             self.sc.delete_shelving(self.selected_item.data(1, QtCore.Qt.UserRole).id)
             self.shelvings.remove(self.selected_item.data(1, QtCore.Qt.UserRole))
-            self.populate_templates()
+            self.itemsWidget.clearSelection()
+            self.menuItem.setEnabled(False)
+            self.menuShelving.setEnabled(False)
+            self.actionDeleteRoom.setEnabled(False)
+            self.actionRemoveItem.setEnabled(False)
+            self.actionRemoveShelving.setEnabled(False)
         elif self.selected_index == 2:
             self.sfc.delete_shelf(self.selected_item.data(2, QtCore.Qt.UserRole).id)
             self.shelvings.remove(self.selected_item.data(2, QtCore.Qt.UserRole))
-            self.populate_templates()
+            self.itemsWidget.clearSelection()
+            self.menuItem.setEnabled(False)
+            self.menuShelving.setEnabled(False)
+            self.actionDeleteRoom.setEnabled(False)
+            self.actionRemoveItem.setEnabled(False)
+            self.actionRemoveShelving.setEnabled(False)
         elif self.selected_index == 3:
             self.ic.delete_item(self.selected_item.data(3, QtCore.Qt.UserRole).id)
             self.items.remove(self.selected_item.data(3, QtCore.Qt.UserRole))
-            self.populate_templates()
+            self.itemsWidget.clearSelection()
+            self.menuItem.setEnabled(False)
+            self.menuShelving.setEnabled(False)
+            self.actionDeleteRoom.setEnabled(False)
+            self.actionRemoveItem.setEnabled(False)
+            self.actionRemoveShelving.setEnabled(False)
         else:
             pass
+        self.populate_templates()
+        self.tableWidget.clear()
 
     def set_selected_index(self, item, index):
         self.selected_index = index
@@ -238,6 +260,11 @@ class Ui_MainWindow(object):
         self.itemsWidget.clear()
         self.rooms = self.rc.get_all_rooms()
         self.populate_templates()
+        self.menuShelving.setEnabled(False)
+        self.menuItem.setEnabled(False)
+        self.actionDeleteRoom.setEnabled(False)
+        self.actionRemoveItem.setEnabled(False)
+        self.actionRemoveShelving.setEnabled(False)
 
     def new_shelving_window(self):
         from new_shelving import Ui_Dialog as NewShelvingDialog
@@ -245,6 +272,11 @@ class Ui_MainWindow(object):
         self.itemsWidget.clear()
         self.populate_templates()
         self.draw_room(self.selected_room.id)
+        self.menuShelving.setEnabled(False)
+        self.menuItem.setEnabled(False)
+        self.actionDeleteRoom.setEnabled(False)
+        self.actionRemoveItem.setEnabled(False)
+        self.actionRemoveShelving.setEnabled(False)
 
     def new_item_window(self):
         from new_item import Ui_Dialog as NewItemDialog
@@ -252,6 +284,11 @@ class Ui_MainWindow(object):
         self.itemsWidget.clear()
         self.populate_templates()
         self.draw_shelving(self.selected_shelving.id)
+        self.menuShelving.setEnabled(False)
+        self.menuItem.setEnabled(False)
+        self.actionDeleteRoom.setEnabled(False)
+        self.actionRemoveItem.setEnabled(False)
+        self.actionRemoveShelving.setEnabled(False)
 
     def new_item_type_window(self):
         from new_item_type import Ui_Dialog as NewItemTypeDialog
@@ -269,11 +306,16 @@ class Ui_MainWindow(object):
         v_header = self.tableWidget.verticalHeader()
         v_header.setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
         self.populate_table_room(room_id)
+        self.menuShelving.setEnabled(False)
+        self.menuItem.setEnabled(False)
+        self.actionDeleteRoom.setEnabled(False)
+        self.actionRemoveItem.setEnabled(False)
+        self.actionRemoveShelving.setEnabled(False)
 
     def populate_table_shelving(self, shelving_id):
         positions = []
         shelves = self.sfc.get_shelves_by_shelving_id(shelving_id)
-        height = len(shelves) - 1
+        height = len(shelves)
         shelves = self.sfc.get_shelves_by_shelving_id(shelving_id)
         for shelf in shelves:
             items = self.ic.get_items_by_shelf_id(shelf.id)
@@ -337,8 +379,7 @@ class Ui_MainWindow(object):
             pass
 
     def control_buttons(self, item, index):
-        data = item.data(index, QtCore.Qt.UserRole)
-        if isinstance(data, Room):
+        if index == 0:
             self.actionDeleteRoom.setEnabled(True)
             self.actionNewRoom.setEnabled(True)
             self.menuShelving.setEnabled(True)
@@ -350,10 +391,10 @@ class Ui_MainWindow(object):
             self.actionCrear.setEnabled(True)
             self.menuItem.setEnabled(False)
             pass
-        elif isinstance(data, Shelving):
+        elif index == 1:
             self.actionDeleteRoom.setEnabled(False)
             self.actionNewRoom.setEnabled(True)
-            self.menuShelving.setEnabled(False)
+            self.menuShelving.setEnabled(True)
             self.actionCreateShelving.setEnabled(True)
             self.actionRemoveShelving.setEnabled(True)
             self.menuItem.setEnabled(True)
@@ -362,7 +403,7 @@ class Ui_MainWindow(object):
             self.action.setEnabled(True)
             self.actionCrear.setEnabled(True)
             pass
-        elif isinstance(data, Shelf):
+        elif index == 2:
             self.actionDeleteRoom.setEnabled(False)
             self.actionNewRoom.setEnabled(True)
             self.actionCreateShelving.setEnabled(False)
@@ -372,6 +413,21 @@ class Ui_MainWindow(object):
             self.action.setEnabled(True)
             self.actionCrear.setEnabled(True)
             pass
+        elif index == 3:
+            self.actionDeleteRoom.setEnabled(False)
+            self.actionNewRoom.setEnabled(True)
+            self.actionCreateShelving.setEnabled(False)
+            self.actionRemoveShelving.setEnabled(False)
+            self.actionAddItem.setEnabled(True)
+            self.actionRemoveItem.setEnabled(True)
+            self.action.setEnabled(True)
+            self.actionCrear.setEnabled(True)
+            pass
+        else:
+            self.actionDeleteRoom.setEnabled(False)
+            self.actionNewRoom.setEnabled(True)
+            self.actionCreateShelving.setEnabled(False)
+            self.actionRemoveShelving.setEnabled(False)
 
 
 if __name__ == "__main__":

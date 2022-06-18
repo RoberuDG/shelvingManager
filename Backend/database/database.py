@@ -202,20 +202,20 @@ class DatabaseUtils:
     def delete_shelving(shelving_id: int, cur: Cursor, con: Connection) -> bool:
         con.execute("PRAGMA foreign_keys = ON")
         cur.execute(
-            '''DELETE FROM shelving WHERE id = ?''', [shelving_id])
+            '''DELETE FROM shelvings WHERE id = ?''', [shelving_id])
         con.commit()
         return True if cur.lastrowid > 0 else False
 
     def delete_shelve(shelve_id: int, cur: Cursor, con: Connection) -> bool:
         con.execute("PRAGMA foreign_keys = ON")
         cur.execute(
-            '''DELETE FROM shelf WHERE id = ?''', [shelve_id])
+            '''DELETE FROM shelves WHERE id = ?''', [shelve_id])
         con.commit()
         return True if cur.lastrowid > 0 else False
 
     def delete_item(item_id: int, cur: Cursor, con: Connection) -> bool:
         con.execute("PRAGMA foreign_keys = ON")
-        cur.execute('''DELETE FROM item WHERE id = ?''', [item_id])
+        cur.execute('''DELETE FROM items WHERE id = ?''', [item_id])
         con.commit()
         return True if cur.lastrowid > 0 else False
 
