@@ -55,8 +55,8 @@ class Ui_MainWindow(object):
         self.itemsWidget = QtWidgets.QTreeWidget(self.centralwidget)
         self.itemsWidget.setMaximumSize(QtCore.QSize(500, 16777215))
         self.itemsWidget.setObjectName("itemsWidget")
-        self.itemsWidget.itemDoubleClicked.connect(self.draw)
-        self.itemsWidget.itemDoubleClicked.connect(self.control_buttons)
+        self.itemsWidget.itemActivated.connect(self.draw)
+        self.itemsWidget.itemActivated.connect(self.control_buttons)
         self.horizontalLayout.addWidget(self.itemsWidget)
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
         self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
@@ -139,7 +139,7 @@ class Ui_MainWindow(object):
         self.actionDeleteRoom.triggered.connect(self.delete)
         self.actionRemoveItem.triggered.connect(self.delete)
         self.actionRemoveShelving.triggered.connect(self.delete)
-        self.itemsWidget.itemClicked.connect(self.set_selected_index)
+        self.itemsWidget.itemActivated.connect(self.set_selected_index)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -175,6 +175,7 @@ class Ui_MainWindow(object):
 
  # *Método para cargar la vista de árbol de los objetos
     def populate_templates(self):
+        self.itemsWidget.clear()
         if self.rooms != []:
             for room in self.rooms:
                 child = QtWidgets.QTreeWidgetItem(self.itemsWidget)

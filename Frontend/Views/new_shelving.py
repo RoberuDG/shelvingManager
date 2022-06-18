@@ -220,6 +220,7 @@ class Ui_Dialog(object):
         self.buttonBox.accepted.connect(Dialog.accept)
         self.buttonBox.setEnabled(False)
         self.buttonBox.rejected.connect(Dialog.reject)
+        self.textName.textChanged.connect(self.control_button_box)
         self.populate_table()
 
     def retranslateUi(self, Dialog):
@@ -242,10 +243,10 @@ class Ui_Dialog(object):
     def control_shelving_position(self):
         occupied_cells = []
         insert_try = []
-        if(self.spinBox.value() >= 1 and self.spinBox_2.value() >= 1 and self.spinBox_3.value() >= 1):
+        if self.spinBox.value() >= 1 and self.spinBox_2.value() >= 1 and self.spinBox_3.value() >= 1:
             for shelving in self.shelvings:
                 position_occupied = self.sc.get_shelving_position(shelving.id)
-                if(position_occupied[0][0] == position_occupied[1][0]):
+                if position_occupied[0][0] == position_occupied[1][0]:
                     for i in range(position_occupied[0][1], position_occupied[1][1] + 1):
                         occupied_cells.append((position_occupied[0][0], i))
                 else:
@@ -262,15 +263,15 @@ class Ui_Dialog(object):
 
             for i in occupied_cells:
                 for j in insert_try:
-                    if(j == i):
+                    if j == i:
                         self.label_5.setText(
                             "<font color='red'>Ya hay una o más estanterías en esta posición.</font>")
-                        self.buttonBox.setEnabled(False)
+                        self.control_button_box(False)
                         return
                     else:
                         self.label_5.setText("")
                         if self.textName.text() != "":
-                            self.buttonBox.setEnabled(True)
+                            self.control_button_box(True)
 
     def insert_shelving(self):
         room_id = self.room_id
@@ -286,10 +287,10 @@ class Ui_Dialog(object):
             self.sc.insert_shelving(room_id, code, start, end, description)
             last_shelving = self.sc.get_last_shelving()
             if last_shelving is not None:
-                index = 0
-                while (index <= self.spinBox_4.value()):
+                index = 1
+                while (index != self.spinBox_4.value()):
                     self.sfc.insert_shelf(
-                        Shelf(last_shelving.id, last_shelving.code + '00' + str(index), index))
+                        Shelf(last_shelving.id, last_shelving.code + str(index), index))
                     index += 1
 
     def deactivate_selection(self):
@@ -302,7 +303,6 @@ class Ui_Dialog(object):
         self.spinBox_3.setMinimum(1)
         self.spinBox_2.setMaximum(self.tableWidgetShelving.columnCount())
         self.spinBox.setMaximum(self.tableWidgetShelving.columnCount())
-        self.buttonBox.setEnabled(True)
         self.spinBox_2.setMinimum(1)
         self.spinBox.setMinimum(1)
         self.spinBox.setValue(1)
@@ -317,7 +317,6 @@ class Ui_Dialog(object):
         self.spinBox.setMaximum(self.tableWidgetShelving.rowCount())
         self.spinBox_2.setMinimum(1)
         self.spinBox.setMinimum(1)
-        self.buttonBox.setEnabled(True)
         self.spinBox.setValue(1)
         self.spinBox_2.setValue(1)
         self.spinBox_3.setValue(1)
@@ -357,6 +356,18 @@ class Ui_Dialog(object):
                         i, position_occupied[0][1], QtWidgets.QTableWidgetItem(shelving.code))
                     self.tableWidgetShelving.item(
                         i, position_occupied[0][1]).setBackground(QtGui.QColor(0, 255, 0))
+
+    def control_button_box(self, control: bool = False):
+        if control is bool:
+            if self.textName.text() != "" and self.textName.text() is not None and self.spinBox_4.value() != 0 and (self.radioButton.isChecked() or self.radioButton_2.isChecked()):
+                self.buttonBox.setEnabled(control)
+            else:
+                self.buttonBox.setEnabled(control)
+        else:
+            if self.textName.text() != "" and self.textName.text() is not None and self.spinBox_4.value() != 0 and (self.radioButton.isChecked() or self.radioButton_2.isChecked()):
+                self.buttonBox.setEnabled(True)
+            else:
+                self.buttonBox.setEnabled(False)
 
     def limit_text(self):
         text = self.etDescription.toPlainText()
